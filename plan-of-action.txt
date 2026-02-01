@@ -1,0 +1,41 @@
+Create database:
+- create the tables
+- create the columns for those tables
+- create the relationships between those tables (foreign keys, etc.)
+
+Create the frontend:
+- create login/register components
+-- add authentication
+- create post component
+- create make a post component
+- create comment component
+- create post list component
+- create search component
+- create user component
+- create filters for search component
+- add block user functionality
+- add delete post functionality
+- add admin roles
+- create tags component
+- add reputation logic
+- add badges
+- create badges component
+
+Create unit tests:
+- test authentication
+- test post component
+- test comment component
+- test making a post
+- test post list component
+- test search logic
+- test filter logic
+- test block user logic
+- test delete post logic
+- test tags component
+- test reputation logic
+- test badges logic
+
+Create documentation:
+- document how to use the app
+- document the database
+- document how the app works without getting too deep into it

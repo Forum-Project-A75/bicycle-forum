@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hoc/auth-context';
-import {  registerUser, createUserHandle } from '../../Services/user.services';
+import { registerUser, createUserHandle } from '../../Services/user.services';
 import { checkData } from './validate.data';
 import './Register.css';
 
@@ -11,12 +11,10 @@ export default function Register() {
     email: '',
     password: '',
     firstName: '',
-    lastName: ''    
+    lastName: '',
   });
 
   const [errors, setErrors] = useState({});
-
-
   const { setUserData } = useAuth();
   const navigate = useNavigate();
 
@@ -27,101 +25,117 @@ export default function Register() {
     });
   };
 
-
-
-
-
-
-
-
-
-
-
-
- 
-
-const register = async () => {
-
+  const register = async () => {
     const validationErrors = await checkData(user);
     console.log(validationErrors);
     if (Object.keys(validationErrors).length !== 0) {
-        setErrors(validationErrors);
-    }
-    else {
-        registerUser(user.email, user.password)
+      setErrors(validationErrors);
+    } else {
+      registerUser(user.email, user.password)
         .then((credential) => {
-              return createUserHandle(
-                                      user.handle,
-                                      credential.user.id,
-                                      user.email,
-                                      user.firstName,
-                                      user.lastName
-        ).then(() => {
-          setUserData({ user: credential.user, userData: null });
-          navigate('/');
+          return createUserHandle(
+            user.handle,
+            credential.user.id,
+            user.email,
+            user.firstName,
+            user.lastName,
+          ).then(() => {
+            setUserData({ user: credential.user, userData: null });
+            navigate('/');
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+          alert(error.message);
         });
-      })
-      .catch((error) => {
-        console.log(error.message);
-        alert(error.message);
-      });
     }
-}
-
+  };
 
   return (
-    <div>
+    <div id="register-form">
       <h2>Register</h2>
-      <label htmlFor="handle">Handle: </label>
-      <input
-        value={user.handle}
-        onChange={updateUser('handle')}
-        type="text"
-        name="handle"
-        placeholder="Enter Handle"
-        id="handle"
-      />{errors.handle && <span className="error">{errors.handle}</span>}
-      <br /> 
-      <label htmlFor="First Name">First Name: </label>
-      <input
-        value={user.firstName}
-        onChange={updateUser('firstName')}
-        type="text"
-        name="firstName"
-        placeholder="Enter First Name"
-        id="firstName"
-      />{errors.firstName && <span className="error">{errors.firstName}</span>}
-      <br /> 
-      <label htmlFor="Last Name">Last Name: </label>
-      <input
-        value={user.lastName}
-        onChange={updateUser('lastName')}
-        type="text"
-        name="lastName"
-        placeholder="Enter Last Name"
-        id="lastName"
-      />{errors.lastName && <span className="error">{errors.lastName}</span>}
-      <br /> 
-      <label htmlFor="email">Email: </label>
-      <input
-        value={user.email}
-        onChange={updateUser('email')}
-        type="email"
-        name="email"
-        placeholder="Enter e-mail"
-        id="email"
-      />{errors.email && <span className="error">{errors.email}</span>}
-      <br /> 
-      <label htmlFor="password">Password: </label>
-      <input
-        value={user.password}
-        onChange={updateUser('password')}
-        type="password"
-        name="password"
-        placeholder="Enter password"
-        id="password"
-      />{errors.password && <span className="error">{errors.password}</span>}
-      <br /> 
+      <div id="fields">
+        <div className="field">
+          <label htmlFor="handle">Handle: </label>
+          <input
+            value={user.handle}
+            onChange={updateUser('handle')}
+            type="text"
+            placeholder="Enter Handle"
+            id="handle"
+          />
+        </div>
+        {errors.handle && (
+          <>
+            <br />
+            <span className="error">{errors.handle}</span>
+          </>
+        )}
+        <div className="field">
+          <label htmlFor="First Name">First Name: </label>
+          <input
+            value={user.firstName}
+            onChange={updateUser('firstName')}
+            type="text"
+            placeholder="Enter First Name"
+            id="firstName"
+          />
+        </div>
+        {errors.firstName && (
+          <>
+            <br />
+            <span className="error">{errors.firstName}</span>
+          </>
+        )}
+        <div className="field">
+          <label htmlFor="Last Name">Last Name: </label>
+          <input
+            value={user.lastName}
+            onChange={updateUser('lastName')}
+            type="text"
+            placeholder="Enter Last Name"
+            id="lastName"
+          />
+        </div>
+        {errors.lastName && (
+          <>
+            <br />
+            <span className="error">{errors.lastName}</span>
+          </>
+        )}
+        <div className="field">
+          <label htmlFor="email">Email: </label>
+          <input
+            value={user.email}
+            onChange={updateUser('email')}
+            type="email"
+            placeholder="Enter e-mail"
+            id="email"
+          />
+        </div>
+        {errors.email && (
+          <>
+            <br />
+            <span className="error">{errors.email}</span>
+          </>
+        )}
+        <div className="field">
+          <label htmlFor="password">Password: </label>
+          <input
+            value={user.password}
+            onChange={updateUser('password')}
+            type="password"
+            placeholder="Enter password"
+            id="password"
+          />
+        </div>
+        {errors.password && (
+          <>
+            <br />
+            <span className="error">{errors.password}</span>
+          </>
+        )}
+      </div>
       <button onClick={register}>Register</button>
     </div>
   );

@@ -1,9 +1,9 @@
 #root {
+  margin-top: 1rem;
   width: 80%;
   height: fit-content;
   border-radius: 15px;
   min-width: 320px;
-  margin: 0 auto;
   padding: 2rem;
   text-align: center;
   background-color: rgba(0, 0, 0, 0.397);

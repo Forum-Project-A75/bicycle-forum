@@ -1,9 +1,11 @@
+import './Home.css';
+
 export default function Home() {
   return (
     <>
-    <main>
-      
-    </main>
+      <div id="home">
+        <div>This is where posts will be displayed</div>
+      </div>
     </>
   );
 }

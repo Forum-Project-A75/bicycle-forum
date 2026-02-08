@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../../hoc/auth-context';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../config/supabase-config';
+import './Login.css';
 
 const loginUser = async (email, password) => {
   const { data, error } = await supabase.auth.signInWithPassword({
@@ -52,26 +53,30 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div id="login-form">
       <h2>Login</h2>
-      <label htmlFor="email">Email: </label>
-      <input
-        value={user.email}
-        onChange={updateUser('email')}
-        type="text"
-        name="email"
-        id="email"
-      />{' '}
-      <br /> <br />
-      <label htmlFor="password">Password: </label>
-      <input
-        value={user.password}
-        onChange={updateUser('password')}
-        type="password"
-        name="password"
-        id="password"
-      />
-      <br /> <br />
+      <div id="fields">
+        <div className="field">
+          <label htmlFor="email">Email: </label>
+          <input
+            value={user.email}
+            onChange={updateUser('email')}
+            type="text"
+            name="email"
+            id="email"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="password">Password: </label>
+          <input
+            value={user.password}
+            onChange={updateUser('password')}
+            type="password"
+            name="password"
+            id="password"
+          />
+        </div>
+      </div>
       <button onClick={login}>Login</button>
     </div>
   );

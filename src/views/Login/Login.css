@@ -6,7 +6,8 @@
   padding: 2rem;
   width: fit-content;
   border-radius: 15px;
-  background-color: rgba(0, 0, 0, 0.397);
+  background-color: rgb(95, 53, 131);
+  border: 2px solid rgb(55, 31, 77);
 }
 
 #login-form button {

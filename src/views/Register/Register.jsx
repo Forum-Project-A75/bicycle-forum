@@ -57,84 +57,69 @@ export default function Register() {
       <div id="fields">
         <div className="field">
           <label htmlFor="handle">Handle: </label>
-          <input
-            value={user.handle}
-            onChange={updateUser('handle')}
-            type="text"
-            placeholder="Enter Handle"
-            id="handle"
-          />
+          <div className="input-layout">
+            <input
+              value={user.handle}
+              onChange={updateUser('handle')}
+              type="text"
+              placeholder="Enter Handle"
+              id="handle"
+            />
+            {errors.handle && <p className="error">{errors.handle}</p>}
+          </div>
         </div>
-        {errors.handle && (
-          <>
-            <br />
-            <span className="error">{errors.handle}</span>
-          </>
-        )}
         <div className="field">
           <label htmlFor="First Name">First Name: </label>
-          <input
-            value={user.firstName}
-            onChange={updateUser('firstName')}
-            type="text"
-            placeholder="Enter First Name"
-            id="firstName"
-          />
+          <div className="input-layout">
+            <input
+              value={user.firstName}
+              onChange={updateUser('firstName')}
+              type="text"
+              placeholder="Enter First Name"
+              id="firstName"
+            />
+            {errors.firstName && <p className="error">{errors.firstName}</p>}
+          </div>
         </div>
-        {errors.firstName && (
-          <>
-            <br />
-            <span className="error">{errors.firstName}</span>
-          </>
-        )}
         <div className="field">
           <label htmlFor="Last Name">Last Name: </label>
-          <input
-            value={user.lastName}
-            onChange={updateUser('lastName')}
-            type="text"
-            placeholder="Enter Last Name"
-            id="lastName"
-          />
+          <div className="input-layout">
+            <input
+              value={user.lastName}
+              onChange={updateUser('lastName')}
+              type="text"
+              placeholder="Enter Last Name"
+              id="lastName"
+            />
+            {errors.lastName && <p className="error">{errors.lastName}</p>}
+          </div>
         </div>
-        {errors.lastName && (
-          <>
-            <br />
-            <span className="error">{errors.lastName}</span>
-          </>
-        )}
         <div className="field">
           <label htmlFor="email">Email: </label>
-          <input
-            value={user.email}
-            onChange={updateUser('email')}
-            type="email"
-            placeholder="Enter e-mail"
-            id="email"
-          />
+          <div className="input-layout">
+            <input
+              value={user.email}
+              onChange={updateUser('email')}
+              type="email"
+              placeholder="Enter e-mail"
+              id="email"
+            />
+            {errors.email && <p className="error">{errors.email}</p>}
+          </div>
         </div>
-        {errors.email && (
-          <>
-            <br />
-            <span className="error">{errors.email}</span>
-          </>
-        )}
         <div className="field">
           <label htmlFor="password">Password: </label>
-          <input
-            value={user.password}
-            onChange={updateUser('password')}
-            type="password"
-            placeholder="Enter password"
-            id="password"
-          />
+          <div className="input-layout">
+            <input
+              value={user.password}
+              onChange={updateUser('password')}
+              type="password"
+              placeholder="Enter password"
+              id="password"
+            />
+            {errors.password && <p className="error">{errors.password}</p>}
+          </div>
         </div>
-        {errors.password && (
-          <>
-            <br />
-            <span className="error">{errors.password}</span>
-          </>
-        )}
       </div>
       <button onClick={register}>Register</button>
     </div>

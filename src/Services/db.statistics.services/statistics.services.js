@@ -21,3 +21,31 @@ export const getStatistics = async () => {
     console.log(data);
     return data;
 }
+
+export const getLatestPosts = async (count) => {
+    const { data, error } = await supabase
+                                  .rpc('get_latest_posts', { p_limit: count });
+
+    if(error) {
+        console.log(error.message);
+        throw new Error(error);
+    }
+
+    console.log(data);
+    return data;
+}
+
+
+export const getMostCommentedPosts = async (count) => {
+    const { data, error } = await supabase
+                                  .rpc('get_most_commented_posts', { p_limit: count });
+
+    if(error) {
+        console.log(error.message);
+        throw new Error(error);
+    }
+
+    console.log(data);
+    return data;
+}
+

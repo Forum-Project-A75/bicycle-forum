@@ -1,4 +1,4 @@
-import { getUserByEmail, getUserByHandle } from '../../Services/user.services';
+import { getUserByEmail, getUserByHandle } from '../../Services/db.services/user.services';
 
 export const checkData = async (user) => {
     const errors = {};

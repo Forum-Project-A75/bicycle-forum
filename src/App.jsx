@@ -6,7 +6,11 @@ import Login from './views/Login/Login.jsx';
 import { AuthContext } from './hoc/auth-context.jsx';
 import Register from './views/Register/Register.jsx';
 import Home from './views/Home/Home.jsx';
-import { getImage } from './Services/getImage.js';
+//import { getImage } from './Services/db.services/getImage.js';
+import { getImage } from './Services/db.services/getImage.js';
+import AdminNav from './views/AdminNav/AdminNav.jsx';
+import ProtectedRoute from './Routes/ProtectedRoute/ProtectedRoute.jsx';
+import UserNav from './views/UserNav/UserNav.jsx';
 
 function App() {
   const [userData, setUserData] = useState({
@@ -31,6 +35,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
+          <Route path="/admin/users" element={<ProtectedRoute allowedRoles={["admin"]}><AdminNav /></ProtectedRoute>}/>
+          <Route path="/user/users" element={<ProtectedRoute allowedRoles={["user"]}><UserNav /></ProtectedRoute>} />       
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

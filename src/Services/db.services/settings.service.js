@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabase-config";
+import { supabase } from "../../config/supabase-config";
 
 export const getSettings = async (key) => {
     try {

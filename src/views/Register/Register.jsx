@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hoc/auth-context';
-import { registerUser, createUserHandle } from '../../Services/user.services';
+import { registerUser, createUserHandle } from '../../Services/db.services/user.services';
 import { checkData } from './validate.data';
 import './Register.css';
 

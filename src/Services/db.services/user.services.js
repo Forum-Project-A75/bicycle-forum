@@ -1,4 +1,4 @@
-import { supabase } from "../config/supabase-config";
+import { supabase } from "../../config/supabase-config";
 
 export const getUserByEmail = async (email) => {
   const { data, error } = await supabase
@@ -32,6 +32,15 @@ export const getUserByHandle = async (handle) => {
   }
 
   return null;
+};
+
+
+export const logoutUser = async () => {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    throw error;
+  }
 };
 
 

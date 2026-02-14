@@ -28,7 +28,7 @@ export default function Header() {
 
   const renderNav = () => {
     if (!user) return <GuestNav />;
-    if (user.role === 'admin') return <AdminNav />;
+    if (userData.role === 'admin') return <AdminNav />;
     return <UserNav />;
   };
 
@@ -37,7 +37,7 @@ export default function Header() {
       <div id="forum-name">{forumName || 'Loading...'}</div>
       <div id="nav">{renderNav()}</div>
       {user && <button onClick={() => logout(setUserData, navigate)}>Logout</button>}
-      {userData && <span>Welcome, {userData[0].handle}</span>}
+      {userData && <span>Welcome: {userData.handle}</span>}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-#login-form {
+#login-f {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,7 +10,7 @@
   border: 2px solid rgb(55, 31, 77);
 }
 
-#login-form button {
+#login-f button {
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   font-size: 1.2rem;
@@ -25,7 +25,7 @@
     color 0.1s ease;
 }
 
-#login-form button:hover {
+#login-f button:hover {
   background-color: #646cff;
   color: black;
   cursor: pointer;

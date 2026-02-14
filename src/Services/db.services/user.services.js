@@ -17,6 +17,25 @@ export const getUserByEmail = async (email) => {
   return null;
 };
 
+
+export const getUserByUid = async (uid) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select('*')
+    .eq('uid', uid);
+
+  if (error) {
+    throw error;
+  }
+
+  if (data.length !== 0) {
+    return data;
+  }
+
+  return null;
+}
+
+
 export const getUserByHandle = async (handle) => {
   const { data, error } = await supabase
     .from('users')
@@ -43,6 +62,19 @@ export const logoutUser = async () => {
   }
 };
 
+export const loginUser = async (email, password) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
 
 export const registerUser = async (email, password) => {
   const { data, error } = await supabase.auth.signUp({
@@ -66,3 +98,25 @@ export const createUserHandle = async (handle, id, email, firstName, lastName) =
     throw error;
   }
 };
+
+export const getUserData = async (uid) => {
+  const { data, error } = await supabase
+  .from('users')
+  .select(`
+    handle,
+    user_types  (
+      name
+    )
+  `)
+  .eq('uid', uid)
+  .single();
+
+   if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+
+

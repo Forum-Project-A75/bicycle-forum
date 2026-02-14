@@ -60,7 +60,7 @@ export default function Home() {
       <div id="home">
         <div>Forum statistics</div>
         <div>
-           <label> Posts: {data ? data[0].users_count : "Loading..."} </label>
+           <label> Users: {data ? data[0].users_count : "Loading..."} </label>
            <label> Posts: {data ? data[0].posts_count : "Loading..."} </label>
         </div>
         <div>

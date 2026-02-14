@@ -1,6 +1,6 @@
 import { getUserByEmail, getUserByHandle } from '../../Services/db.services/user.services';
 
-export const checkData = async (user) => {
+export const checkUserRegistrationData = async (user) => {
     const errors = {};
 
     if (!user.email) {

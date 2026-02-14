@@ -1,23 +1,6 @@
 import './PostCard.css';
-//import {getLatestPosts, getMostCommentedPosts} from '../../Services/db.statistics.services/statistics.services.js';
-//import { useState, useEffect } from 'react';
 
 export default function PostCard(post) {
-    // const [data, setData] = useState({});
-
-    //   useEffect(() => {
-    //     async function fetchStats() {
-    //       try {
-    //         const result = await getStatistics();
-    //         setData(result);
-    //       } catch (error) {
-    //         console.log(error.message);
-    //       }
-    //     }
-    
-    //     fetchStats();
-    //   }, []);
-    
 //     {
 //     post_id: 5,
 //     title: "Bitcoin again?",

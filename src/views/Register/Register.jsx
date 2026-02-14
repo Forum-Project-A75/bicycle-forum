@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hoc/auth-context';
-import { registerUser, createUserHandle } from '../../Services/db.services/user.services';
-import { checkData } from './validate.data';
+import { registerUser, createUserHandle, getUserData } from '../../Services/db.services/user.services';
+import { checkUserRegistrationData } from './validate.data';
 import './Register.css';
+import { debugLog, debugErrorLog } from '../../debug/debug';
 
 export default function Register() {
-  const [user, setUser] = useState({
+  const [userRegistrationData, setUserRegistrationData] = useState({
     handle: '',
     email: '',
     password: '',
@@ -14,23 +15,24 @@ export default function Register() {
     lastName: '',
   });
 
-  const [errors, setErrors] = useState({});
-  const { setUserData } = useAuth();
+  const [registrationErrors, setResistrationErrors] = useState({});
+  const { user, setUserData } = useAuth();
   const navigate = useNavigate();
 
-  const updateUser = (prop) => (e) => {
-    setUser({
-      ...user,
+  const updateUserRegistrationData = (prop) => (e) => {
+    setUserRegistrationData({
+      ...userRegistrationData,
       [prop]: e.target.value,
     });
   };
 
   const register = async () => {
-    const validationErrors = await checkData(user);
+    const validationErrors = await checkUserRegistrationData(userRegistrationData);
     console.log(validationErrors);
     if (Object.keys(validationErrors).length !== 0) {
-      setErrors(validationErrors);
-    } else {
+      setResistrationErrors(validationErrors);
+    } 
+    else {
       registerUser(user.email, user.password)
         .then((credential) => {
           return createUserHandle(
@@ -41,13 +43,24 @@ export default function Register() {
             user.lastName,
           ).then(() => {
             setUserData({ user: credential.user, userData: null });
-            navigate('/');
-          });
+          })
         })
         .catch((error) => {
-          console.log(error.message);
+          debugErrorLog("ERROR registerUser: " + error.message);
           alert(error.message);
         });
+
+      getUserData(user.id)
+        .then((data) => {
+          debugLog("DATA: " + data);
+          setUserData( prev => ({...prev, userData: {role : data.user_types.name}}));
+        })
+        .catch((error) => {
+          debugErrorLog("ERROR getUserData: " + error.message);
+          alert(error.message);
+        });
+
+        navigate('/');
     }
   };
 
@@ -59,65 +72,65 @@ export default function Register() {
           <label htmlFor="handle">Handle: </label>
           <div className="input-layout">
             <input
-              value={user.handle}
-              onChange={updateUser('handle')}
+              value={userRegistrationData.handle}
+              onChange={updateUserRegistrationData('handle')}
               type="text"
               placeholder="Enter Handle"
               id="handle"
             />
-            {errors.handle && <p className="error">{errors.handle}</p>}
+            {registrationErrors.handle && <p className="error">{registrationErrors.handle}</p>}
           </div>
         </div>
         <div className="field">
           <label htmlFor="First Name">First Name: </label>
           <div className="input-layout">
             <input
-              value={user.firstName}
-              onChange={updateUser('firstName')}
+              value={userRegistrationData.firstName}
+              onChange={updateUserRegistrationData('firstName')}
               type="text"
               placeholder="Enter First Name"
               id="firstName"
             />
-            {errors.firstName && <p className="error">{errors.firstName}</p>}
+            {registrationErrors.firstName && <p className="error">{registrationErrors.firstName}</p>}
           </div>
         </div>
         <div className="field">
           <label htmlFor="Last Name">Last Name: </label>
           <div className="input-layout">
             <input
-              value={user.lastName}
-              onChange={updateUser('lastName')}
+              value={userRegistrationData.lastName}
+              onChange={updateUserRegistrationData('lastName')}
               type="text"
               placeholder="Enter Last Name"
               id="lastName"
             />
-            {errors.lastName && <p className="error">{errors.lastName}</p>}
+            {registrationErrors.lastName && <p className="error">{registrationErrors.lastName}</p>}
           </div>
         </div>
         <div className="field">
           <label htmlFor="email">Email: </label>
           <div className="input-layout">
             <input
-              value={user.email}
-              onChange={updateUser('email')}
+              value={userRegistrationData.email}
+              onChange={updateUserRegistrationData('email')}
               type="email"
               placeholder="Enter e-mail"
               id="email"
             />
-            {errors.email && <p className="error">{errors.email}</p>}
+            {registrationErrors.email && <p className="error">{registrationErrors.email}</p>}
           </div>
         </div>
         <div className="field">
           <label htmlFor="password">Password: </label>
           <div className="input-layout">
             <input
-              value={user.password}
-              onChange={updateUser('password')}
+              value={userRegistrationData.password}
+              onChange={updateUserRegistrationData('password')}
               type="password"
               placeholder="Enter password"
               id="password"
             />
-            {errors.password && <p className="error">{errors.password}</p>}
+            {registrationErrors.password && <p className="error">{registrationErrors.password}</p>}
           </div>
         </div>
       </div>

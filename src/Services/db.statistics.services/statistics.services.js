@@ -1,5 +1,4 @@
-import { supabase } from "../../config/supabase-config";
-
+import { supabase } from '../../config/supabase-config';
 
 // returned data
 // [
@@ -9,43 +8,38 @@ import { supabase } from "../../config/supabase-config";
 //   }
 // ]
 export const getStatistics = async () => {
-    const  { data, error } = await supabase
-                                   .from('forum_stats')
-                                   .select('*');
+  const { data, error } = await supabase.from('forum_stats').select('*');
 
-    if(error) {
-        console.log(error.message);
-        throw new Error(error);
-    }
+  if (error) {
+    console.log(error.message);
+    throw new Error(error);
+  }
 
-    console.log(data);
-    return data;
-}
+  return data;
+};
 
 export const getLatestPosts = async (count) => {
-    const { data, error } = await supabase
-                                  .rpc('get_latest_posts', { p_limit: count });
+  const { data, error } = await supabase.rpc('get_latest_posts', {
+    p_limit: count,
+  });
 
-    if(error) {
-        console.log(error.message);
-        throw new Error(error);
-    }
+  if (error) {
+    console.log(error.message);
+    throw new Error(error);
+  }
 
-    console.log(data);
-    return data;
-}
-
+  return data;
+};
 
 export const getMostCommentedPosts = async (count) => {
-    const { data, error } = await supabase
-                                  .rpc('get_most_commented_posts', { p_limit: count });
+  const { data, error } = await supabase.rpc('get_most_commented_posts', {
+    p_limit: count,
+  });
 
-    if(error) {
-        console.log(error.message);
-        throw new Error(error);
-    }
+  if (error) {
+    console.log(error.message);
+    throw new Error(error);
+  }
 
-    console.log(data);
-    return data;
-}
-
+  return data;
+};

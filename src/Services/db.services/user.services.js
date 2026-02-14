@@ -1,4 +1,4 @@
-import { supabase } from "../../config/supabase-config";
+import { supabase } from '../../config/supabase-config';
 
 export const getUserByEmail = async (email) => {
   const { data, error } = await supabase
@@ -17,7 +17,6 @@ export const getUserByEmail = async (email) => {
   return null;
 };
 
-
 export const getUserByUid = async (uid) => {
   const { data, error } = await supabase
     .from('users')
@@ -33,8 +32,7 @@ export const getUserByUid = async (uid) => {
   }
 
   return null;
-}
-
+};
 
 export const getUserByHandle = async (handle) => {
   const { data, error } = await supabase
@@ -52,7 +50,6 @@ export const getUserByHandle = async (handle) => {
 
   return null;
 };
-
 
 export const logoutUser = async () => {
   const { error } = await supabase.auth.signOut();
@@ -75,7 +72,6 @@ export const loginUser = async (email, password) => {
   return data;
 };
 
-
 export const registerUser = async (email, password) => {
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -89,10 +85,22 @@ export const registerUser = async (email, password) => {
   return data;
 };
 
-export const createUserHandle = async (handle, id, email, firstName, lastName) => {
-  const { error } = await supabase
-    .from('users')
-    .insert({ uid: id, handle: handle, email: email, first_name: firstName, last_name: lastName, fk_user_status_id: 1, fk_user_type_id: 2});
+export const createUserHandle = async (
+  handle,
+  id,
+  email,
+  firstName,
+  lastName,
+) => {
+  const { error } = await supabase.from('users').insert({
+    uid: id,
+    handle: handle,
+    email: email,
+    first_name: firstName,
+    last_name: lastName,
+    fk_user_status_id: 1,
+    fk_user_type_id: 2,
+  });
 
   if (error) {
     throw error;
@@ -101,22 +109,24 @@ export const createUserHandle = async (handle, id, email, firstName, lastName) =
 
 export const getUserData = async (uid) => {
   const { data, error } = await supabase
-  .from('users')
-  .select(`
+    .from('users')
+    .select(
+      `
     handle,
+    first_name,
+    last_name,
+    email,
     user_types  (
       name
     )
-  `)
-  .eq('uid', uid)
-  .single();
+  `,
+    )
+    .eq('uid', uid)
+    .single();
 
-   if (error) {
+  if (error) {
     throw error;
   }
 
   return data;
 };
-
-
-

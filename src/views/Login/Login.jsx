@@ -7,10 +7,6 @@ import { getUserData } from '../../Services/db.services/user.services.js';
 import { validateLoginData } from './validate.data.js';
 import { loginUser } from '../../Services/db.services/user.services.js';
 
-
-
-
-
 export default function Login() {
   const [userLoginData, setUserLoginData] = useState({
     email: '',
@@ -21,25 +17,35 @@ export default function Login() {
   const location = useLocation();
 
   const userLogin = async () => {
-    if(!validateLoginData(userLoginData.email, userLoginData.password))return;
+    if (!validateLoginData(userLoginData.email, userLoginData.password)) return;
 
     try {
-        const credentials = await loginUser(userLoginData.email, userLoginData.password);
-        console.log(credentials);
-        debugLog("DATA: " + `${credentials}`);
-        const supaUser = credentials.user;
+      const credentials = await loginUser(
+        userLoginData.email,
+        userLoginData.password,
+      );
+      debugLog('DATA: ' + `${credentials}`);
+      const supaUser = credentials.user;
 
-        const data = await getUserData(supaUser.id);
-        debugLog("DATA: " + `${data}`);
-        
-        setUserData({user:supaUser, userData: { role: data.user_types.name, handle: data.handle }});
+      const data = await getUserData(supaUser.id);
+      // debugLog('DATA: ' + `${data}`);
 
-        navigate(location.state?.from?.pathname ?? '/profile');
+      setUserData({
+        user: supaUser,
+        userData: {
+          role: data.user_types.name,
+          handle: data.handle,
+          firstName: data.first_name,
+          lastName: data.last_name,
+          email: data.email,
+        },
+      });
 
+      navigate(location.state?.from?.pathname ?? '/profile');
     } catch (error) {
-        debugErrorLog("LOGIN ERROR: " + error.message);
-        alert(error.message);
-      }
+      debugErrorLog('LOGIN ERROR: ' + error.message);
+      alert(error.message);
+    }
   };
 
   const updateUserLoginData = (prop) => (e) => {
@@ -74,7 +80,9 @@ export default function Login() {
           />
         </div>
       </div>
-      <button type = "button" onClick={userLogin}>Login</button>
+      <button type="button" onClick={userLogin}>
+        Login
+      </button>
     </div>
   );
 }

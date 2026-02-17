@@ -24,7 +24,7 @@ export default function UserProfile() {
 
     if (file.size > 5000000) {
       alert('Avatar image size has to be less than 5MB!');
-      log.log("Large image size!");
+      log.log('Large image size!');
       return;
     }
 
@@ -46,7 +46,7 @@ export default function UserProfile() {
           setDbAvatar(null);
         }
       } catch (err) {
-        log.err("checkImagePath: ", err.message, err);
+        log.err('checkImagePath: ', err.message, err);
       }
     }
     checkImagePath();
@@ -63,7 +63,7 @@ export default function UserProfile() {
       setPreview(getAvatarUrl(user.id));
       alert('Avatar uploaded!');
     } catch (err) {
-      log.err("uploadAvatar: ", err.message, err);
+      log.err('uploadAvatar: ', err.message, err);
       alert('Upload failed');
     }
   };
@@ -79,7 +79,7 @@ export default function UserProfile() {
     <div id="user-profile">
       <p>Edit Details</p>
       <hr />
-      <div id="fields">
+      <div id="edit-section">
         <div className="field" id="avatar-field">
           <img src={preview || dbAvatar || defaultAvatar} alt="avatar" />
           <div>

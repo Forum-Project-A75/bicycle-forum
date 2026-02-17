@@ -13,7 +13,7 @@ import ProtectedRoute from './Routes/ProtectedRoute/ProtectedRoute.jsx';
 import UserNav from './views/UserNav/UserNav.jsx';
 import UserProfile from './views/UserProfile/UserProfile.jsx';
 import { useAuth } from './hoc/auth-context.jsx';
-import PostEditor  from './views/PostEditor/PostEditor.jsx'
+import PostEditor from './views/PostEditor/PostEditor.jsx';
 
 function App() {
   // const [userData, setUserData] = useState({
@@ -21,7 +21,7 @@ function App() {
   //   userData: null,
   // });
 
-  const {setUser, setUserData, user, userData, loading} = useAuth();
+  const { setUser, setUserData, user, userData, loading } = useAuth();
 
   useEffect(() => {
     const setImage = async () => {
@@ -33,20 +33,47 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{setUser, setUserData, user, userData, loading}}>
+      <AuthContext.Provider
+        value={{ setUser, setUserData, user, userData, loading }}
+      >
         <Header />
 
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
-          <Route path="/admin/users" element={<ProtectedRoute allowedRoles={["admin"]}><AdminNav /></ProtectedRoute>}/>
-          <Route path="/user/users" element={<ProtectedRoute allowedRoles={["user"]}><UserNav /></ProtectedRoute>} />
-          <Route path="/profile" element={<ProtectedRoute allowedRoles={["user"]}><UserProfile /></ProtectedRoute>} />
-          <Route path="/create" element={<ProtectedRoute allowedRoles={["user", "admin"]}><PostEditor /></ProtectedRoute>} />
-
-          
-
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminNav />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user/users"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <UserNav />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute allowedRoles={['user', 'admin']}>
+                <PostEditor />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>
@@ -54,5 +81,3 @@ function App() {
 }
 
 export default App;
-
-

@@ -4,7 +4,9 @@ import { useAuth } from '../../hoc/auth-context';
 import { registerUser, createUserHandle, getUserData } from '../../Services/db.services/user.services';
 import { checkUserRegistrationData } from './validate.data';
 import './Register.css';
-import { debugLog, debugErrorLog } from '../../debug/debug';
+import { createLogger, LOG_MODULES } from '../../debug/debug';
+
+const log = createLogger(LOG_MODULES.REGISTER);
 
 export default function Register() {
   const [userRegistrationData, setUserRegistrationData] = useState({
@@ -16,7 +18,7 @@ export default function Register() {
   });
 
   const [registrationErrors, setResistrationErrors] = useState({});
-  const { user, setUserData } = useAuth();
+  const { setUserData, setUser } = useAuth();
   const navigate = useNavigate();
 
   const updateUserRegistrationData = (prop) => (e) => {
@@ -26,43 +28,55 @@ export default function Register() {
     });
   };
 
-  const register = async () => {
+const register = async () => {
+  try {
+    // 1. validation
     const validationErrors = await checkUserRegistrationData(userRegistrationData);
-    console.log(validationErrors);
+
     if (Object.keys(validationErrors).length !== 0) {
       setResistrationErrors(validationErrors);
-    } 
-    else {
-      registerUser(user.email, user.password)
-        .then((credential) => {
-          return createUserHandle(
-            user.handle,
-            credential.user.id,
-            user.email,
-            user.firstName,
-            user.lastName,
-          ).then(() => {
-            setUserData({ user: credential.user, userData: null });
-          })
-        })
-        .catch((error) => {
-          debugErrorLog("ERROR registerUser: " + error.message);
-          alert(error.message);
-        });
-
-      getUserData(user.id)
-        .then((data) => {
-          debugLog("DATA: " + data);
-          setUserData( prev => ({...prev, userData: {role : data.user_types.name}}));
-        })
-        .catch((error) => {
-          debugErrorLog("ERROR getUserData: " + error.message);
-          alert(error.message);
-        });
-
-        navigate('/');
+      return;
     }
-  };
+
+    // 2. register auth user
+    const credential = await registerUser(
+      userRegistrationData.email,
+      userRegistrationData.password
+    );
+
+    const authUser = credential.user;
+
+    // 3. create profile (handle table)
+    await createUserHandle(
+      userRegistrationData.handle,
+      authUser.id,
+      userRegistrationData.email,
+      userRegistrationData.firstName,
+      userRegistrationData.lastName
+    );
+
+    // 4. load user data
+    const data = await getUserData(authUser.id);
+
+    // 5. set state
+    setUser(authUser);
+
+    setUserData({
+      role: data.user_types.name,
+      handle: data.handle,
+      firstName: data.first_name,
+      lastName: data.last_name,
+      email: data.email
+    });
+
+    // 6. navigate AFTER everything is ready
+    navigate('/');
+
+  } catch (error) {
+    log.error("REGISTER FLOW ERROR:", error.message, error);
+    alert(error.message);
+  }
+};
 
   return (
     <div id="register-form">

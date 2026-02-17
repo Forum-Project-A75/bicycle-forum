@@ -1,15 +1,18 @@
 import { logoutUser } from "../db.services/user.services";
-import { debugErrorLog } from "../../debug/debug";
 import {supabaseID} from '../../config/supabase-config.js'
+import { createLogger, LOG_MODULES } from "../../debug/debug";
 
-export const logout = (setAppState, navigate) => {
+const log = createLogger(LOG_MODULES.DB); 
+
+export const logout = (setUserData, setUser, navigate) => {
   logoutUser()
     .then(() => {
-      setAppState({ user: null, userData: null });
+      setUserData(null);
+      setUser(null);
       navigate('/');
     })
     .catch((error) => {
-        debugErrorLog('ERROR logout failed', error);
+        log.error('ERROR logout failed', error.message, error);
     });
 };
 

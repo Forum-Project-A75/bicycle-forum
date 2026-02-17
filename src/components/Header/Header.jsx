@@ -8,9 +8,12 @@ import AdminNav from '../../views/AdminNav/AdminNav.jsx';
 import { logout } from '../../Services/user.services/user.service.js';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
+import { createLogger, LOG_MODULES } from '../../debug/debug.js';
+
+const log = createLogger(LOG_MODULES.HEADER);
 
 export default function Header() {
-  const { user, userData, setUserData } = useAuth();
+  const { user, userData, setUserData, setUser } = useAuth();
   const [forumName, setForumName] = useState('');
   const navigate = useNavigate();
 
@@ -20,7 +23,7 @@ export default function Header() {
         const name = await getSettings('forum_name');
         setForumName(name);
       } catch (err) {
-        console.error(err);
+        log.err(err.message, err);
       }
     }
     loadForumName();
@@ -28,7 +31,7 @@ export default function Header() {
 
   const renderNav = () => {
     if (!user) return <GuestNav />;
-    if (userData.role === 'admin') return <AdminNav />;
+    if (userData && userData.role && userData.role === 'admin') return <AdminNav />;
     return <UserNav />;
   };
 
@@ -36,7 +39,7 @@ export default function Header() {
     <div id="header">
       <div id="forum-name">{forumName || 'Loading...'}</div>
       <div id="nav">{renderNav()}</div>
-      {user && <button onClick={() => logout(setUserData, navigate)}>Logout</button>}
+      {user && <button onClick={() => logout(setUserData, setUser, navigate)}>Logout</button>}
       {userData && <span>Welcome: {userData.handle}</span>}
     </div>
   );

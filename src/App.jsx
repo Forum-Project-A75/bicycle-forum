@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header/Header';
 import './App.css';
@@ -12,12 +12,16 @@ import AdminNav from './views/AdminNav/AdminNav.jsx';
 import ProtectedRoute from './Routes/ProtectedRoute/ProtectedRoute.jsx';
 import UserNav from './views/UserNav/UserNav.jsx';
 import UserProfile from './views/UserProfile/UserProfile.jsx';
+import { useAuth } from './hoc/auth-context.jsx';
+import PostEditor  from './views/PostEditor/PostEditor.jsx'
 
 function App() {
-  const [userData, setUserData] = useState({
-    user: null,
-    userData: null,
-  });
+  // const [userData, setUserData] = useState({
+  //   user: null,
+  //   userData: null,
+  // });
+
+  const {setUser, setUserData, user, userData, loading} = useAuth();
 
   useEffect(() => {
     const setImage = async () => {
@@ -29,7 +33,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{ ...userData, setUserData }}>
+      <AuthContext.Provider value={{setUser, setUserData, user, userData, loading}}>
         <Header />
 
         <Routes>
@@ -39,6 +43,9 @@ function App() {
           <Route path="/admin/users" element={<ProtectedRoute allowedRoles={["admin"]}><AdminNav /></ProtectedRoute>}/>
           <Route path="/user/users" element={<ProtectedRoute allowedRoles={["user"]}><UserNav /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute allowedRoles={["user"]}><UserProfile /></ProtectedRoute>} />
+          <Route path="/create" element={<ProtectedRoute allowedRoles={["user", "admin"]}><PostEditor /></ProtectedRoute>} />
+
+          
 
         </Routes>
       </AuthContext.Provider>
@@ -47,3 +54,5 @@ function App() {
 }
 
 export default App;
+
+

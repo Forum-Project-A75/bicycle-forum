@@ -7,6 +7,8 @@ export default function UserNav() {
       <NavLink to="/posts" className={({isActive}) => isActive ? "active" : ""}>All Posts</NavLink>
       <NavLink to="/tags"className={({isActive}) => isActive ? "active" : ""}>Tags</NavLink>
       <NavLink to="/profile"className={({isActive}) => isActive ? "active" : ""}>Profile</NavLink>
+      <NavLink to="/create"className={({isActive}) => isActive ? "active" : ""}>Create Post</NavLink>
+
     </>
   );
 }

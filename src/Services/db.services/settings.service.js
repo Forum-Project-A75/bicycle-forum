@@ -1,4 +1,7 @@
 import { supabase } from "../../config/supabase-config";
+import { createLogger, LOG_MODULES } from "../../debug/debug";
+
+const log = createLogger(LOG_MODULES.DB);
 
 export const getSettings = async (key) => {
     try {
@@ -9,14 +12,14 @@ export const getSettings = async (key) => {
                                     .single();
 
         if (error) {
-            console.log(error);
+            log.error("getSettings(): ", error.message, error);
             throw error;
         }
         
         return data.value;
     }
     catch(error) {
-        console.log(error);
+        log.error("getSettings(): ", error.message, error);
         throw error;
     }
 }

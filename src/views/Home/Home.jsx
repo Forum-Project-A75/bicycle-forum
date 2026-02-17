@@ -3,6 +3,9 @@ import { getStatistics } from '../../Services/db.statistics.services/statistics.
 import { useEffect, useState } from "react";
 import {getLatestPosts, getMostCommentedPosts} from '../../Services/db.statistics.services/statistics.services.js';
 import PostCard from '../PostCard/PostCard.jsx';
+import { createLogger, LOG_MODULES } from '../../debug/debug.js';
+
+const log = createLogger(LOG_MODULES.HOME);
 
 
 
@@ -15,7 +18,7 @@ export default function Home() {
         const result = await getStatistics();
         setData(result);
       } catch (error) {
-        console.log(error.message);
+        log.error(error.message);
       }
     }
 
@@ -33,7 +36,7 @@ export default function Home() {
         }
           ));
       } catch (error) {
-        console.log(error.message);
+        log.error(error.message);
       }
 
 
@@ -45,7 +48,7 @@ export default function Home() {
         }
           ));
       } catch (error) {
-        console.log(error.message);
+        log.error(error.message);
       }
 
     }

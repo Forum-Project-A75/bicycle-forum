@@ -3,8 +3,10 @@ import { useAuth } from '../../hoc/auth-context';
 import uploadAvatar from '../../Services/db.services/setAvatar';
 import { getUserByUid } from '../../Services/db.services/user.services.js';
 import { getAvatarUrl } from '../../Services/user.services/user.service.js';
-
+import { createLogger, LOG_MODULES } from '../../debug/debug.js';
 import { useState, useEffect } from 'react';
+
+const log = createLogger(LOG_MODULES.USER_PROFILE);
 
 export default function UserProfile() {
   const [avatar, setAvatar] = useState(null);
@@ -22,6 +24,7 @@ export default function UserProfile() {
 
     if (file.size > 5000000) {
       alert('Avatar image size has to be less than 5MB!');
+      log.log("Large image size!");
       return;
     }
 
@@ -43,7 +46,7 @@ export default function UserProfile() {
           setDbAvatar(null);
         }
       } catch (err) {
-        console.error(err.message);
+        log.err("checkImagePath: ", err.message, err);
       }
     }
     checkImagePath();
@@ -60,7 +63,7 @@ export default function UserProfile() {
       setPreview(getAvatarUrl(user.id));
       alert('Avatar uploaded!');
     } catch (err) {
-      console.error(err.message);
+      log.err("uploadAvatar: ", err.message, err);
       alert('Upload failed');
     }
   };

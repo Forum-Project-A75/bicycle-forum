@@ -1,8 +1,12 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../hoc/auth-context";
+import { useAuth } from "../../hoc/auth-context.jsx";
 
 export default function ProtectedRoute({ allowedRoles, children }) {
-  const { userData, user } = useAuth();
+  const { userData, user, loading } = useAuth();
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;

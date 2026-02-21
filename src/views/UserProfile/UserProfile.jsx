@@ -63,7 +63,7 @@ export default function UserProfile() {
       setPreview(getAvatarUrl(user.id));
       alert('Avatar uploaded!');
     } catch (err) {
-      log.err("uploadAvatar: ", err.message, err);
+      log.error("uploadAvatar: ", err.message, err);
       alert('Upload failed');
     }
   };

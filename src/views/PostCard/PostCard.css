@@ -1,0 +1,59 @@
+.post-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-card {
+  display: flex;
+  gap: 1rem;
+  background: #111;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  transition: 0.15s;
+}
+
+.post-card:hover {
+  background: #1b1b1b;
+  transform: scale(1.01);
+}
+
+.post-left {
+  width: 80px;
+  text-align: center;
+  color: #bbb;
+}
+
+.votes {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.comments {
+  margin-top: 0.5rem;
+}
+
+.post-main {
+  flex: 1;
+}
+
+.post-title {
+  margin: 0;
+  color: #6c79ff;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+}

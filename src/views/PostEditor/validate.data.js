@@ -1,6 +1,6 @@
 const MIN_POST_TITLE_LENGTH = 16;
 export const MAX_POST_TITLE_LENGTH = 64;
-const MIN_POST_CONTENT_LENGTH = 32;
+export const MIN_POST_CONTENT_LENGTH = 32;
 export const MAX_POST_CONTENT_LENGTH = 8192;
 
 export const validate = (data) => {

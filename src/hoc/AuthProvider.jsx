@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
 
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(true); // ⭐ ключовото
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
 
@@ -38,7 +38,6 @@ export function AuthProvider({ children }) {
     
     getSession();
 
-    // 2. слушаме future login/logout
     const { data: listener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setUser(session?.user ?? null);

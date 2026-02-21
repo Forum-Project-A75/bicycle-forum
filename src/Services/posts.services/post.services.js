@@ -69,3 +69,101 @@ export async function insertPostTags(postID, tagID) {
     throw error;
   }
 }
+
+
+export const getPostPage = async (from, to) => {
+  const PAGE_SIZE = 10;
+
+  const { data, error } = await supabase
+      .from("posts")
+      .select(`
+         id,
+         title,
+         created_on,
+        user:users!posts_fk_user_id_fkey (
+           uid,
+           handle,
+           first_name,
+           last_name,
+           avatar_url
+        )
+      `)
+      .is("fk_parent_id", null) 
+      .order("created_on", { ascending: false })
+      .range(from, to);
+
+  if (error) {
+    log.error("getPostPage: ", error.message);
+    throw error;
+  }
+
+  log.log("getPostPage returned data: ", data);
+
+
+  return data.map(p => ({
+    id: p.id,
+    title: p.title,
+    created_at: p.created_on,
+    votes: p.votes,
+    author_handle: p.user.handle,
+    author_avatar: p.user.avatar_url
+  }));
+}
+
+
+
+export const getComments = async (pPostID) => {
+  const { data, error } = await supabase.rpc('get_post_thread', {
+    p_post_id: pPostID,
+  });
+
+  if (error) {
+    console.log("getComments: ", error.message);
+    throw new Error(error);
+  }
+
+  return data;
+};
+
+// употребяваме таз функция за да направим дървото от върнатите ни от базата данни записи! 
+// понеже в тях има дърводина структура, но те се връщат в нещо като рекорд сет т.е. едномерен масив от записи.
+export function buildCommentTree(rows) {
+  const map = {};
+  let root = null;
+
+  // първа инициализация на дръвото! 
+  rows.forEach(r => {
+    map[r.id] = { ...r, children: [] };
+  });
+
+  // тук правим връзката родител дете
+  rows.forEach(r => {
+
+    if (r.fk_parent_id === null) {
+      // когато парент е null това значи, че това е главния родителски node
+      root = map[r.id];
+    } else {
+      const parent = map[r.fk_parent_id];
+      if (parent) {
+        parent.children.push(map[r.id]);
+      }
+    }
+
+  });
+
+  return root;
+}
+
+
+// нова функция за гласуване! подадените параметри трябва да с voteValue = -1, 0, 1
+export async function vote(postId, voteValue) {
+  const { data, error } = await supabase.rpc("vote_post", {
+    p_post_id: postId,
+    p_vote: voteValue
+  });
+
+  if (error) throw error;
+
+  return data; 
+}
+

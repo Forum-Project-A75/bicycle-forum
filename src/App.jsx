@@ -14,6 +14,8 @@ import UserNav from './views/UserNav/UserNav.jsx';
 import UserProfile from './views/UserProfile/UserProfile.jsx';
 import { useAuth } from './hoc/auth-context.jsx';
 import PostEditor from './views/PostEditor/PostEditor.jsx';
+import ShowPosts from './components/ShowPosts/ShowPosts.jsx';
+import PostDetails from './views/PostDetails/PostDetails.jsx';
 
 function App() {
   // const [userData, setUserData] = useState({
@@ -74,6 +76,47 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminNav />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/user/users"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <UserNav />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute allowedRoles={['user']}>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create"
+            element={
+              <ProtectedRoute allowedRoles={['user', 'admin']}>
+                <PostEditor />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/posts"
+            element={
+              <ProtectedRoute allowedRoles={['user', 'admin']}>
+                <ShowPosts />{' '}
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/post/:id" element={<PostDetails />} />
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

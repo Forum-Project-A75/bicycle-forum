@@ -9,7 +9,11 @@ export const LOG_MODULES = {
     DB: "DB",
     POST_EDITOR: "POST_EDITOR",
     USER_PROFILE: "USER_PROFILE",
-    TAGS: "TAGS"
+    TAGS: "TAGS",
+    POST_DETAILS: "POST_DETAILS",
+    POST_CARD: "POST_CARD",
+    CREATE_COMMENT: "CREATE_COMMENT",
+    VOTE_PANEL: "VOTE_PANEL"
 };
 
 export const LOG_CONFIG = {
@@ -22,7 +26,11 @@ export const LOG_CONFIG = {
     DB: true,
     POST_EDITOR: true,
     USER_PROFILE: true,
-    TAGS: true
+    TAGS: true,
+    POST_DETAILS: true,
+    POST_CARD: true,
+    CREATE_COMMENT: true,
+    VOTE_PANEL: true
 };
 
 

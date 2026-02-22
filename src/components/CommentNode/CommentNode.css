@@ -1,0 +1,6 @@
+.comment {
+  display: flex;
+  margin-left: 20px;
+  border-left: 1px solid gray;
+  padding-left: 10px;
+}

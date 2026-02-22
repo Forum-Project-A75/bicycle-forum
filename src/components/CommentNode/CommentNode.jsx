@@ -1,34 +1,45 @@
-import CommentsCreator from "../CommentsCreator/CommentsCreator";
-import { useState } from "react";
-import { useAuth } from "../../hoc/auth-context";
-import VotePanel from "../VotePanel/VotePanel";
-
+import CommentsCreator from '../CommentsCreator/CommentsCreator';
+import { useState } from 'react';
+import { useAuth } from '../../hoc/auth-context';
+import VotePanel from '../VotePanel/VotePanel';
+import './CommentNode.css';
 
 export default function CommentNode({ comment }) {
+  const [replying, setReplying] = useState(false);
+  const { user } = useAuth();
 
-    const [replying, setReplying] = useState(false);
-    const {user} = useAuth();
+  return (
+    <div className="comment">
+      <div>{comment.handle}</div>
 
-    return (
-    
-       <div style={{ marginLeft: "20px", borderLeft: "1px solid gray", paddingLeft:"10px" }}>
-      
-        <div>
-           <b>{comment.handle}</b>
-        </div>
+      <div className="comment-content">{comment.content}</div>
 
-      <div>{comment.content}</div>
+      <button className="reply-button" onClick={() => setReplying(true)}>
+        Reply
+      </button>
 
-      <button onClick={() => setReplying(true)}>Reply</button>
-      {replying && (<CommentsCreator userId={user.id} parentId={comment.id} setReplying={setReplying} />)}
-       
-      {<VotePanel postId={comment.id}  score={comment.score} upvotes={comment.upvotes} downvotes={comment.downvotes} userVote={comment.my_vote}/>}
-
-      {/* ДЕЦАТА */}
-      {comment.children.map(child =>
-        <CommentNode key={child.id} comment={child} />
+      {replying && (
+        <CommentsCreator
+          userId={user.id}
+          parentId={comment.id}
+          setReplying={setReplying}
+        />
       )}
 
+      {
+        <VotePanel
+          postId={comment.id}
+          score={comment.score}
+          upvotes={comment.upvotes}
+          downvotes={comment.downvotes}
+          userVote={comment.my_vote}
+        />
+      }
+
+      {/* ДЕЦАТА */}
+      {comment.children.map((child) => (
+        <CommentNode key={child.id} comment={child} />
+      ))}
     </div>
   );
 }

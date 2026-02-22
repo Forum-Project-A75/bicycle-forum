@@ -130,3 +130,52 @@ export const getUserData = async (uid) => {
 
   return data;
 };
+
+export const searchUsers = async (handle) => {
+  const { data, error } = await supabase
+    .from('users')
+    .select(
+      `
+    created_on,
+    uid,
+    handle,
+    first_name,
+    last_name,
+    email,
+    user_types  (
+      name
+    ),
+    user_statuses (
+    name
+    )`,
+    )
+    .ilike('handle', `%${handle}%`);
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};
+
+export const updateUserStatus = async (uid, status) => {
+  const { _, error } = await supabase
+    .from('users')
+    .update({ fk_user_status_id: status })
+    .eq('uid', uid);
+
+  if (error) {
+    throw error;
+  }
+};
+
+export const updateUserType = async (uid, type) => {
+  const { _, error } = await supabase
+    .from('users')
+    .update({ fk_user_type_id: type })
+    .eq('uid', uid);
+
+  if (error) {
+    throw error;
+  }
+};

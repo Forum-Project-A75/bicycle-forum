@@ -16,6 +16,8 @@ import { useAuth } from './hoc/auth-context.jsx';
 import PostEditor from './views/PostEditor/PostEditor.jsx';
 import ShowPosts from './components/ShowPosts/ShowPosts.jsx';
 import PostDetails from './views/PostDetails/PostDetails.jsx';
+import UserModeration from './views/UserModeration/UserModeration.jsx';
+import PostModeration from './views/PostModeration/PostModeration.jsx';
 
 function App() {
   // const [userData, setUserData] = useState({
@@ -48,7 +50,15 @@ function App() {
             path="/admin/users"
             element={
               <ProtectedRoute allowedRoles={['admin']}>
-                <AdminNav />
+                <UserModeration />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/posts"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PostModeration />
               </ProtectedRoute>
             }
           />
@@ -63,7 +73,7 @@ function App() {
           <Route
             path="/profile"
             element={
-              <ProtectedRoute allowedRoles={['user']}>
+              <ProtectedRoute allowedRoles={['user', 'admin']}>
                 <UserProfile />
               </ProtectedRoute>
             }

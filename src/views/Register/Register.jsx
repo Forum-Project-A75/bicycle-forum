@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hoc/auth-context';
-import { registerUser, createUserHandle, getUserData } from '../../Services/db.services/user.services';
+import {
+  registerUser,
+  createUserHandle,
+  getUserData,
+} from '../../Services/db.services/user.services';
 import { checkUserRegistrationData } from './validate.data';
 import './Register.css';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
@@ -17,7 +21,7 @@ export default function Register() {
     lastName: '',
   });
 
-  const [registrationErrors, setResistrationErrors] = useState({});
+  const [registrationErrors, setRegistrationErrors] = useState({});
   const { setUserData, setUser } = useAuth();
   const navigate = useNavigate();
 
@@ -28,55 +32,55 @@ export default function Register() {
     });
   };
 
-const register = async () => {
-  try {
-    // 1. validation
-    const validationErrors = await checkUserRegistrationData(userRegistrationData);
+  const register = async () => {
+    try {
+      // 1. validation
+      const validationErrors =
+        await checkUserRegistrationData(userRegistrationData);
 
-    if (Object.keys(validationErrors).length !== 0) {
-      setResistrationErrors(validationErrors);
-      return;
+      if (Object.keys(validationErrors).length !== 0) {
+        setRegistrationErrors(validationErrors);
+        return;
+      }
+
+      // 2. register auth user
+      const credential = await registerUser(
+        userRegistrationData.email,
+        userRegistrationData.password,
+      );
+
+      const authUser = credential.user;
+
+      // 3. create profile (handle table)
+      await createUserHandle(
+        userRegistrationData.handle,
+        authUser.id,
+        userRegistrationData.email,
+        userRegistrationData.firstName,
+        userRegistrationData.lastName,
+      );
+
+      // 4. load user data
+      const data = await getUserData(authUser.id);
+
+      // 5. set state
+      setUser(authUser);
+
+      setUserData({
+        role: data.user_types.name,
+        handle: data.handle,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        email: data.email,
+      });
+
+      // 6. navigate AFTER everything is ready
+      navigate('/');
+    } catch (error) {
+      log.error('REGISTER FLOW ERROR:', error.message, error);
+      alert(error.message);
     }
-
-    // 2. register auth user
-    const credential = await registerUser(
-      userRegistrationData.email,
-      userRegistrationData.password
-    );
-
-    const authUser = credential.user;
-
-    // 3. create profile (handle table)
-    await createUserHandle(
-      userRegistrationData.handle,
-      authUser.id,
-      userRegistrationData.email,
-      userRegistrationData.firstName,
-      userRegistrationData.lastName
-    );
-
-    // 4. load user data
-    const data = await getUserData(authUser.id);
-
-    // 5. set state
-    setUser(authUser);
-
-    setUserData({
-      role: data.user_types.name,
-      handle: data.handle,
-      firstName: data.first_name,
-      lastName: data.last_name,
-      email: data.email
-    });
-
-    // 6. navigate AFTER everything is ready
-    navigate('/');
-
-  } catch (error) {
-    log.error("REGISTER FLOW ERROR:", error.message, error);
-    alert(error.message);
-  }
-};
+  };
 
   return (
     <div id="register-form">
@@ -92,7 +96,9 @@ const register = async () => {
               placeholder="Enter Handle"
               id="handle"
             />
-            {registrationErrors.handle && <p className="error">{registrationErrors.handle}</p>}
+            {registrationErrors.handle && (
+              <p className="error">{registrationErrors.handle}</p>
+            )}
           </div>
         </div>
         <div className="field">
@@ -105,7 +111,9 @@ const register = async () => {
               placeholder="Enter First Name"
               id="firstName"
             />
-            {registrationErrors.firstName && <p className="error">{registrationErrors.firstName}</p>}
+            {registrationErrors.firstName && (
+              <p className="error">{registrationErrors.firstName}</p>
+            )}
           </div>
         </div>
         <div className="field">
@@ -118,7 +126,9 @@ const register = async () => {
               placeholder="Enter Last Name"
               id="lastName"
             />
-            {registrationErrors.lastName && <p className="error">{registrationErrors.lastName}</p>}
+            {registrationErrors.lastName && (
+              <p className="error">{registrationErrors.lastName}</p>
+            )}
           </div>
         </div>
         <div className="field">
@@ -131,7 +141,9 @@ const register = async () => {
               placeholder="Enter e-mail"
               id="email"
             />
-            {registrationErrors.email && <p className="error">{registrationErrors.email}</p>}
+            {registrationErrors.email && (
+              <p className="error">{registrationErrors.email}</p>
+            )}
           </div>
         </div>
         <div className="field">
@@ -144,7 +156,9 @@ const register = async () => {
               placeholder="Enter password"
               id="password"
             />
-            {registrationErrors.password && <p className="error">{registrationErrors.password}</p>}
+            {registrationErrors.password && (
+              <p className="error">{registrationErrors.password}</p>
+            )}
           </div>
         </div>
       </div>

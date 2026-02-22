@@ -5,7 +5,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #df8a44;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,5 +19,6 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-repeat: no-repeat;
-  background-size: cover;
+  background: fixed;
+  background-position: center;
 }

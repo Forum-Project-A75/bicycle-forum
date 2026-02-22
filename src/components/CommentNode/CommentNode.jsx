@@ -11,21 +11,6 @@ export default function CommentNode({ comment }) {
   return (
     <div className="comment">
       <div>{comment.handle}</div>
-
-      <div className="comment-content">{comment.content}</div>
-
-      <button className="reply-button" onClick={() => setReplying(true)}>
-        Reply
-      </button>
-
-      {replying && (
-        <CommentsCreator
-          userId={user.id}
-          parentId={comment.id}
-          setReplying={setReplying}
-        />
-      )}
-
       {
         <VotePanel
           postId={comment.id}
@@ -35,6 +20,20 @@ export default function CommentNode({ comment }) {
           userVote={comment.my_vote}
         />
       }
+      <div>
+        <div className="comment-content">{comment.content}</div>
+        <button className="reply-button" onClick={() => setReplying(true)}>
+          Reply
+        </button>
+
+        {replying && (
+          <CommentsCreator
+            userId={user.id}
+            parentId={comment.id}
+            setReplying={setReplying}
+          />
+        )}
+      </div>
 
       {/* ДЕЦАТА */}
       {comment.children.map((child) => (

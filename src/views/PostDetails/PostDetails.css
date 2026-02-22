@@ -1,0 +1,20 @@
+#post-details {
+  margin-top: 2em;
+  background-color: rgb(95, 53, 131);
+  color: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+
+#post-container {
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+#comments-container {
+  background-color: rgba(0, 0, 0, 0.219);
+  border-radius: 15px;
+  padding: 20px;
+}

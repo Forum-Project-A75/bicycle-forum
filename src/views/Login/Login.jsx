@@ -32,8 +32,6 @@ export default function Login() {
       const data = await getUserData(supaUser.id);
       log.log('User data: ', data);
 
-      //setUserData({user:supaUser, userData: { role: data.user_types.name, handle: data.handle }});
-
       setUserData({
         role: data.user_types.name,
         handle: data.handle,

@@ -179,3 +179,37 @@ export const updateUserType = async (uid, type) => {
     throw error;
   }
 };
+
+
+
+
+export const updateAvatar = async (avatar) => {
+  const { data, error } = await supabase.rpc('update_avatar', {
+    p_avatar_url: avatar,
+  });
+
+  if (error) {
+    console.log("updateAvatar: ", error.message);
+    throw new Error(error);
+  }
+
+  return data;
+};
+
+
+export const updateUserNames = async (firstName, lastName) => {
+  const { data, error } = await supabase.rpc('update_user_names', {
+    p_first_name: firstName,
+    p_last_name: lastName,
+  });
+
+  if (error) {
+    console.log("updateUserNames: ", error.message);
+    throw new Error(error);
+  }
+
+  return data;
+};
+
+
+

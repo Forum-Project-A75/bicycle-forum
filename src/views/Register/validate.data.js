@@ -1,4 +1,9 @@
 import { getUserByEmail, getUserByHandle } from '../../Services/db.services/user.services';
+import { createLogger, LOG_MODULES } from '../../debug/debug';
+import { MIN_NAME_LENGTH, MAX_NAME_LENGTH, MIN_PASSWORD_LENGTH } from '../../constants.js';
+
+const log = createLogger(LOG_MODULES.REGISTER);
+
 
 export const checkUserRegistrationData = async (user) => {
     const errors = {};
@@ -15,27 +20,27 @@ export const checkUserRegistrationData = async (user) => {
             }
         }
         catch(error) {
-            console.log(error);
+            log.error("checkUserRegistrationData: ", error.message);
             alert(error.message);
         }
     }
 
     if(!user.password) {
         errors.password = 'Please enter password';
-    } else if(user.password.length < 8) {
-        errors.password = 'Please password should be at least 8 symbols';
+    } else if(user.password.length < MIN_PASSWORD_LENGTH) {
+        errors.password = `Please password should be at least ${MIN_PASSWORD_LENGTH} symbols`;
     }
 
     if(!user.firstName) {
         errors.firstName = 'Please enter First Name';
-    } else if(user.firstName < 4 && user.firstName > 32) {
-        errors.firstName = 'First Name should have at least 4 symbols and not great than 32 symbols';
+    } else if(user.firstName < MIN_NAME_LENGTH && user.firstName > MAX_NAME_LENGTH) {
+        errors.firstName = `First Name should have at least ${MIN_NAME_LENGTH} symbols and not great than ${MAX_NAME_LENGTH} symbols`;
     }
 
     if(!user.lastName) {
         errors.lastName = 'Please enter Last Name';
-    } else if(user.lastName < 4 && user.lastName > 32) {
-        errors.lastName = 'Last Name should have at least 4 symbols and not great than 32 symbols';
+    } else if(user.lastName < MIN_NAME_LENGTH && user.lastName > MAX_NAME_LENGTH) {
+        errors.lastName = `Last Name should have at least ${MIN_NAME_LENGTH} symbols and not great than ${MAX_NAME_LENGTH} symbols`;
     }
 
     if(!user.handle) {
@@ -48,7 +53,7 @@ export const checkUserRegistrationData = async (user) => {
             }
         }
         catch(error) {
-            console.log(error);
+            log.error("checkUserRegistrationData: ", error.message);
             alert(error.message);
         }
     }

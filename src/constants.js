@@ -8,3 +8,8 @@ export const user_types = Object.freeze({
   admin: 1,
   user: 2,
 });
+
+
+export const MIN_NAME_LENGTH = 4;
+export const MAX_NAME_LENGTH = 32;
+export const MIN_PASSWORD_LENGTH = 8;

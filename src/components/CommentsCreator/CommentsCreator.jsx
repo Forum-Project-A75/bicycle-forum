@@ -29,6 +29,10 @@ export default function CommentsCreator({ userId, parentId, setReplying }) {
       setReplying(false);
   };
 
+  const cancel = () => {
+    setReplying(false);
+  }
+
   
 
   return (
@@ -44,6 +48,7 @@ export default function CommentsCreator({ userId, parentId, setReplying }) {
       </div>
 
       <button onClick={submit}>Send</button>
+      <button onClick={cancel}>Cancel</button>
     </div>
   );
 }

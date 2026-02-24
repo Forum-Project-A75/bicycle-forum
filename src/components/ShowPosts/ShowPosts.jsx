@@ -1,37 +1,60 @@
- import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import PostCard from "../../views/PostCard/PostCard";
-import { getPostPage } from "../../Services/posts.services/post.services";
-//import { useSearchParams } from "react-router-dom";
+import { getPostPage, getPostDirectComments } from "../../Services/posts.services/post.services";
+import { createLogger, LOG_MODULES } from "../../debug/debug";
+import { PAGE_SIZE } from "../../constants";
+
+const log = createLogger(LOG_MODULES.SHOW_POSTS);
 
 export default function ShowPosts() {
   const [posts, setPosts] = useState([]);
-  const PAGE_SIZE = 10;
   const [hasMore, setHasMore] = useState(true);
-  const offsetRef = useRef(0);
-  //const [searchParams] = useSearchParams();
+  const [loading, setLoading] = useState(false);
 
-  // тук добавям малко логика! което може и да не е толкозва добре, но на този етап така ще го реализирам! 
-  // на следващ етап може да имам няколко контрола! Но пък ще има доста повторения на кода! не знам кое е по добре! 
-  // тук май повтарянето на кода не е толкова зле! 
-  //const tag = searchParams.get("tag");
-  //const user = searchParams.get("user");
-  //const sort = searchParams.get("sort");
+  const offsetRef = useRef(0);
+  const didInitialLoad = useRef(false);
 
   const loadMorePosts = useCallback(async () => {
+    if (loading) return;          
+    if (!hasMore) return;         
+
+    setLoading(true);
+
+    try {
       const newPosts = await getPostPage(offsetRef.current, PAGE_SIZE);
-      setPosts(prev => [...prev, ...newPosts]);
+
+      const enrichedPosts = await Promise.all(
+        newPosts.map(async (post) => {
+          const data = await getPostDirectComments(post.id);
+
+          return {
+            ...post,
+            comment_count: data[0].comment_count,
+            upvotes: data[0].upvotes,
+            downvotes: data[0].downvotes
+          };
+        })
+      );
+
+      setPosts(prev => [...prev, ...enrichedPosts]);
+
       offsetRef.current += PAGE_SIZE;
 
       if (newPosts.length < PAGE_SIZE) {
-          setHasMore(false);
+        setHasMore(false);
       }
 
-  }, []);
+    } catch (err) {
+      log.error(err);
+    } finally {
+      setLoading(false);
+    }
 
-  const initialLoad = useRef(false);
+  }, [loading, hasMore]);
+
   useEffect(() => {
-    if (initialLoad.current) return;
-    initialLoad.current = true;
+    if (didInitialLoad.current) return;
+    didInitialLoad.current = true;
 
     loadMorePosts();
   }, [loadMorePosts]);
@@ -43,7 +66,12 @@ export default function ShowPosts() {
       {posts.map(post => (
         <PostCard key={post.id} post={post} />
       ))}
-      {hasMore && (<button onClick={loadMorePosts}>Load more comments</button>)}
+
+      {hasMore && (
+        <button onClick={loadMorePosts} disabled={loading}>
+          {loading ? "Loading..." : "Load more posts"}
+        </button>
+      )}
     </div>
   );
 }

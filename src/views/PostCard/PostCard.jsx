@@ -16,7 +16,11 @@ export default function PostCard({ post }) {
 
         <div className="post-left">
           <div className="votes">
-            ▲ {post.votes ?? 0}
+            ▲ {post.upvotes ?? 0}
+          </div>
+
+          <div className="votes">
+            ▼ {post.downvotes ?? 0}
           </div>
 
           <div className="comments">
@@ -30,11 +34,11 @@ export default function PostCard({ post }) {
           <div className="post-meta">
             <img
               className="avatar"
-              src={post.author_avatar ?? defaultAvatar}
+              src={post.avatar ?? defaultAvatar}
               alt="avatar"
             />
 
-            <span className="author">{post.author_handle}</span>
+            <span className="author">{post.handle}</span>
 
             <span className="date">
               {new Date(post.created_at).toLocaleDateString()}

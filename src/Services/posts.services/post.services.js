@@ -72,8 +72,6 @@ export async function insertPostTags(postID, tagID) {
 
 
 export const getPostPage = async (from, to) => {
-  const PAGE_SIZE = 10;
-
   const { data, error } = await supabase
       .from("posts")
       .select(`
@@ -104,11 +102,25 @@ export const getPostPage = async (from, to) => {
     id: p.id,
     title: p.title,
     created_at: p.created_on,
-    votes: p.votes,
-    author_handle: p.user.handle,
-    author_avatar: p.user.avatar_url
+    handle: p.user.handle,
+    avatar: p.user.avatar_url
   }));
 }
+
+export const getPostDirectComments = async (pPostID) => {
+  const { data, error } = await supabase.rpc('get_post_direct_comments', {
+    p_post_id: pPostID,
+  });
+
+  if (error) {
+    console.log("getPostDirectComments: ", error.message);
+    throw new Error(error);
+  }
+
+  return data;
+};
+
+
 
 
 
@@ -161,6 +173,14 @@ export async function vote(postId, voteValue) {
     p_post_id: postId,
     p_vote: voteValue
   });
+
+  if (error) throw error;
+
+  return data; 
+}
+
+export async function getPostsSumary() {
+  const { data, error } = await supabase.rpc("get_root_posts_summary");
 
   if (error) throw error;
 

@@ -13,7 +13,8 @@ export const LOG_MODULES = {
     POST_DETAILS: "POST_DETAILS",
     POST_CARD: "POST_CARD",
     CREATE_COMMENT: "CREATE_COMMENT",
-    VOTE_PANEL: "VOTE_PANEL"
+    VOTE_PANEL: "VOTE_PANEL",
+    SHOW_POSTS: "SHOW_POSTS"
 };
 
 export const LOG_CONFIG = {
@@ -30,7 +31,8 @@ export const LOG_CONFIG = {
     POST_DETAILS: true,
     POST_CARD: true,
     CREATE_COMMENT: true,
-    VOTE_PANEL: true
+    VOTE_PANEL: true,
+    SHOW_POSTS: true
 };
 
 

@@ -1,17 +1,17 @@
-import './PostCard.css';
+import './HomePostCard.css';
 import { Link } from "react-router-dom";
-import { createLogger, LOG_MODULES } from '../../debug/debug';
+//import { createLogger, LOG_MODULES } from '../../debug/debug';
 
-  const log = createLogger(LOG_MODULES.POST_CARD);
+  //const log = createLogger(LOG_MODULES.POST_CARD);
 
   const defaultAvatar = '../../../images/default.png';
 
 
-export default function PostCard({ post }) {
-  log.log(post);
+export default function HomePostCard({ post }) {
+  //log.log(post);
 
   return (
-    <Link to={`/post/${post.id}`} className="post-card-link">
+   
       <div className="post-card">
 
         <div className="post-left">
@@ -41,11 +41,11 @@ export default function PostCard({ post }) {
             <span className="author">{post.handle}</span>
 
             <span className="date">
-              {new Date(post.created_at).toLocaleDateString()}
+              {new Date(post.created_on).toLocaleDateString()}
             </span>
           </div>
         </div>
+
       </div>
-    </Link>
   );
 }

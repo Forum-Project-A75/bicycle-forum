@@ -19,7 +19,11 @@ export const getStatistics = async () => {
 };
 
 export const getLatestPosts = async (count) => {
-  const { data, error } = await supabase.rpc('get_latest_posts', {
+  
+  
+  
+  //const { data, error } = await supabase.rpc('get_latest_posts', {
+  const { data, error } = await supabase.rpc('get_latest_threads', {
     p_limit: count,
   });
 
@@ -32,7 +36,9 @@ export const getLatestPosts = async (count) => {
 };
 
 export const getMostCommentedPosts = async (count) => {
-  const { data, error } = await supabase.rpc('get_most_commented_posts', {
+  
+  //const { data, error } = await supabase.rpc('get_most_commented_posts', {
+  const { data, error } = await supabase.rpc('get_most_commented_threads', {
     p_limit: count,
   });
 

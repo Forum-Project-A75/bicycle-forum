@@ -10,3 +10,29 @@
   background-color: rgb(95, 53, 131);
   border: 2px solid rgb(55, 31, 77);
 }
+
+
+.posts-sections {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 30px;
+}
+
+.posts-column h2 {
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 5px;
+}
+
+.posts-column {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+@media (max-width: 900px) {
+  .posts-sections {
+    grid-template-columns: 1fr;
+  }
+}

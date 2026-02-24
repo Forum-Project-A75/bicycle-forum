@@ -15,3 +15,5 @@ export const MAX_NAME_LENGTH = 32;
 export const MIN_PASSWORD_LENGTH = 8;
 
 export const PAGE_SIZE = 10;
+export const HOME_GET_LATEST_POSTS_COUNT = 5;
+export const HOME_GET_MOST_COMMENTED_POSTS_COUNT = 5;

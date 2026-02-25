@@ -18,7 +18,7 @@ export default function PostDetails() {
   const { id } = useParams();
   const [tree, setTree] = useState(null);
   const [replying, setReplying] = useState(false);
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
 
   useEffect(() => {
     const load = async () => {
@@ -45,6 +45,8 @@ export default function PostDetails() {
             upvotes={tree.upvotes}
             downvotes={tree.downvotes}
             userVote={tree.my_vote}
+            tree={tree}
+            setTree={setTree}
           />
         }
         <div>
@@ -58,6 +60,8 @@ export default function PostDetails() {
               userId={user.id}
               parentId={tree.id}
               setReplying={setReplying}
+              setTree={setTree}
+              username={userData.handle}
             />
           )}
         </div>
@@ -66,7 +70,7 @@ export default function PostDetails() {
       <div id="comments-container">
         <h3>Comments</h3>
         {tree.children.map((c) => (
-          <CommentNode key={c.id} comment={c} />
+          <CommentNode key={c.id} comment={c} tree={tree} setTree={setTree}/>
         ))}
       </div>
     </div>

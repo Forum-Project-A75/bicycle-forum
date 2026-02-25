@@ -4,9 +4,9 @@ import { useAuth } from '../../hoc/auth-context';
 import VotePanel from '../VotePanel/VotePanel';
 import './CommentNode.css';
 
-export default function CommentNode({ comment }) {
+export default function CommentNode({ comment, tree, setTree }) {
   const [replying, setReplying] = useState(false);
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
 
   return (
     <div className="comment">
@@ -19,6 +19,8 @@ export default function CommentNode({ comment }) {
             upvotes={comment.upvotes}
             downvotes={comment.downvotes}
             userVote={comment.my_vote}
+            tree={tree}
+            setTree={setTree}
           />
         }
         <div>
@@ -33,6 +35,8 @@ export default function CommentNode({ comment }) {
                 userId={user.id}
                 parentId={comment.id}
                 setReplying={setReplying}
+                setTree={setTree}
+                username={userData.handle}
               />
             )}
           </div>
@@ -40,7 +44,7 @@ export default function CommentNode({ comment }) {
       </div>
       {/* ДЕЦАТА */}
       {comment.children.map((child) => (
-        <CommentNode key={child.id} comment={child} />
+        <CommentNode key={child.id} comment={child} tree={tree} setTree={setTree} />
       ))}
     </div>
   );

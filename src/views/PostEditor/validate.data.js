@@ -1,7 +1,4 @@
-const MIN_POST_TITLE_LENGTH = 16;
-export const MAX_POST_TITLE_LENGTH = 64;
-export const MIN_POST_CONTENT_LENGTH = 32;
-export const MAX_POST_CONTENT_LENGTH = 8192;
+import { MIN_POST_TITLE_LENGTH, MAX_POST_TITLE_LENGTH, MIN_POST_CONTENT_LENGTH, MAX_POST_CONTENT_LENGTH } from "../../constants";
 
 export const validate = (data) => {
 

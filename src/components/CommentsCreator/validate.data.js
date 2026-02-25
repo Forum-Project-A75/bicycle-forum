@@ -1,4 +1,4 @@
-import {MIN_POST_CONTENT_LENGTH, MAX_POST_CONTENT_LENGTH} from'../../views/PostEditor/validate.data.js';
+import { MIN_POST_CONTENT_LENGTH, MAX_POST_CONTENT_LENGTH } from "../../constants";
 
 export const validate = (content) => {
 

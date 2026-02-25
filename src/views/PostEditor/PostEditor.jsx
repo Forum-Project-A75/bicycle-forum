@@ -5,7 +5,8 @@ import './PostEditor.css';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
 import { getOrCreateTag } from '../../Services/db.services/tags.services.js';
 import { insertPostTags } from '../../Services/posts.services/post.services.js';
-import { validate, MAX_POST_TITLE_LENGTH, MAX_POST_CONTENT_LENGTH } from './validate.data.js';
+import { validate } from './validate.data.js';
+import { MAX_POST_TITLE_LENGTH, MAX_POST_CONTENT_LENGTH } from '../../constants.js';
 
 const log = createLogger(LOG_MODULES.POST_EDITOR);
 

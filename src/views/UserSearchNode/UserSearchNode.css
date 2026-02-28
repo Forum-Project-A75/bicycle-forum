@@ -1,0 +1,30 @@
+.user-search-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.219);
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+}
+
+.user-search-node > button {
+  border-radius: 10px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 3rem 4rem;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.user-search-node > button:hover {
+  background-color: rgba(0, 0, 0, 0.123);
+  transform: scale(1.02);
+  transform: translateY(-2px);
+}

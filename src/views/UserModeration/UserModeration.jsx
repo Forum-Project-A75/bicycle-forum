@@ -15,7 +15,7 @@ import { user_statuses, user_types } from '../../constants';
 export default function UserModeration() {
   const [error, setError] = useState(null);
   const [handle, setHandle] = useState('');
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async () => {
@@ -47,6 +47,10 @@ export default function UserModeration() {
   };
 
   const handleSearchChange = (e) => {
+    if (e.key === 'Enter') {
+      fetchUsers();
+      return;
+    }
     const handle = e.target.value;
     setHandle(handle.trim());
   };
@@ -63,19 +67,20 @@ export default function UserModeration() {
   return (
     <div className="user-moderation">
       <p>User Moderation Page</p>
-      <div>
+      <div id="search-bar">
         <input
           type="search"
           name="search"
           id="search-input"
           placeholder="Search users..."
           onChange={handleSearchChange}
+          onKeyDown={handleSearchChange}
         />
         <button onClick={fetchUsers}>Search</button>
       </div>
       <div id="search-results">
         {error && <p className="error">{error}</p>}
-        {users.length > 0 && (
+        {(users?.length > 0 && (
           <div id="users-list">
             {users.map((user) => (
               <UserSearchNode
@@ -85,7 +90,9 @@ export default function UserModeration() {
               />
             ))}
           </div>
-        )}
+        )) ||
+          (users?.length === 0 && <p>No users found.</p>)}
+        {users === null && <p>Search for users by handle or email.</p>}
       </div>
       {selectedUser && (
         <UserDetails

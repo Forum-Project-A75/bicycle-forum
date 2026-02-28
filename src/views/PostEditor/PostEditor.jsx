@@ -1,19 +1,27 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../hoc/auth-context';
-import { createPost, getPostForEdit, updatePost } from '../../Services/posts.services/post.services.js';
+import {
+  createPost,
+  getPostForEdit,
+  updatePost,
+} from '../../Services/posts.services/post.services.js';
 import './PostEditor.css';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
 import { getOrCreateTag } from '../../Services/db.services/tags.services.js';
 import { insertPostTags } from '../../Services/posts.services/post.services.js';
 import { validate } from './validate.data.js';
-import { MAX_POST_TITLE_LENGTH, MAX_POST_CONTENT_LENGTH } from '../../constants.js';
+import {
+  MAX_POST_TITLE_LENGTH,
+  MAX_POST_CONTENT_LENGTH,
+} from '../../constants.js';
 
 const log = createLogger(LOG_MODULES.POST_EDITOR);
 
-export default function PostEditor({ parentPostId = null, postId = null, onSave }) {
-
-
-
+export default function PostEditor({
+  parentPostId = null,
+  postId = null,
+  onSave,
+}) {
   const { user, userData } = useAuth();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -22,10 +30,9 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
   const [tags, setTags] = useState('');
 
   const isEditMode = postId !== null;
-  log.log("isEditMode: ", isEditMode);
+  log.log('isEditMode: ', isEditMode);
 
   useEffect(() => {
-
     if (!isEditMode) return;
 
     const load = async () => {
@@ -34,25 +41,18 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
 
         setTitle(post.title ?? '');
         setContent(post.content ?? '');
-
       } catch (err) {
-        alert("Cannot load post for editing");
-        log.error("Cannot load post for editing: ", err.message, err);
+        alert('Cannot load post for editing');
+        log.error('Cannot load post for editing: ', err.message, err);
       }
     };
 
     load();
-
   }, [postId, isEditMode]);
 
-
-  
-
-
   const handleSave = async () => {
-
-    if(userData.userStatus !== 1) {
-      alert("You are not authorized to create or edit posts.");
+    if (userData.userStatus !== 1) {
+      alert('You are not authorized to create or edit posts.');
       return;
     }
 
@@ -62,7 +62,7 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
     if (Object.keys(newErrors).length !== 0) {
       setErrors(newErrors);
       return;
-    } 
+    }
 
     setLoading(true);
 
@@ -72,33 +72,31 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
         result = await updatePost({
           postId,
           title,
-          content
+          content,
         });
-      } 
-      else {
+      } else {
         result = await createPost({
           title,
           content,
           userId: user.id,
-          parentPostId
+          parentPostId,
         });
 
         let tagData = tags;
         tagData = tagData.trim();
-        tagData = tagData.split(/[ ,#;]+/);
+        tagData = tagData.split(/[ ,#;]+/gm);
         for (let tag of tagData) {
-           tag = tag.trim();
-           if(tag.length === 0) continue; // do not process empty tags
-           tag = tag.toLocaleLowerCase(); // all tags will be with lowercase 
-           const tagId = await getOrCreateTag(tag);
-           insertPostTags(result.id, tagId);
+          tag = tag.trim();
+          if (tag.length === 0) continue; // do not process empty tags
+          tag = tag.toLocaleLowerCase(); // all tags will be with lowercase
+          const tagId = await getOrCreateTag(tag);
+          insertPostTags(result.id, tagId);
         }
       }
 
       if (onSave) onSave(result);
-    } 
-    catch (err) {
-      log.error("handleSave: ", err);
+    } catch (err) {
+      log.error('handleSave: ', err);
       alert(err.message);
     }
 
@@ -106,9 +104,8 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
   };
 
   return (
-    <div className="post-editor">
-
-      <h2>{isEditMode ? "Edit Post" : "Create Post"}</h2>
+    <div id="post-editor">
+      <h2>{isEditMode ? 'Edit Post' : 'Create Post'}</h2>
 
       {/* TITLE */}
       <div className="editor-field">
@@ -127,20 +124,6 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
         {errors.title && <div className="error">{errors.title}</div>}
       </div>
 
-      {/* TAGS */}
-      <div className="editor-field">
-        <label>Tags</label>
-
-        <input
-          type="text"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-        />
-
-        
-      </div>
-
-
       {/* CONTENT */}
       <div className="editor-field">
         <label>Content</label>
@@ -158,24 +141,27 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
         {errors.content && <div className="error">{errors.content}</div>}
       </div>
 
+      {/* TAGS */}
+      <div className="editor-field">
+        <label>Tags</label>
+
+        <input
+          type="text"
+          value={tags}
+          placeholder="Split by space, comma, # or ;"
+          onChange={(e) => setTags(e.target.value)}
+        />
+      </div>
 
       {/* BUTTONS */}
       <div className="editor-buttons">
-
-        <button
-          onClick={handleSave}
-          disabled={loading}
-        >
-          {loading ? "Saving..." : (isEditMode ? "Save Changes" : "Create")}
+        <button onClick={handleSave} disabled={loading}>
+          {loading ? 'Saving...' : isEditMode ? 'Save Changes' : 'Create'}
         </button>
-
       </div>
-
     </div>
   );
 }
-
-
 
 //<div className="char-counter">
 //          {tags.length} / 120

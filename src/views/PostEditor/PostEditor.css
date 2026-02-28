@@ -1,0 +1,63 @@
+#post-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: center;
+  width: 80%;
+  padding: 20px;
+  background-color: rgb(95, 53, 131);
+  border: 2px solid rgb(55, 31, 77);
+  border-radius: 15px;
+  min-height: 40vh;
+  margin: auto;
+}
+
+.editor-field {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.editor-field > label {
+  width: 100%;
+  font-size: 1.2rem;
+  text-align: left;
+}
+
+.editor-field > input,
+.editor-field > textarea {
+  width: 95%;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  transition: background-color 0.2s ease;
+  overflow: auto;
+  resize: none;
+  margin: auto;
+}
+
+.editor-field > input:focus,
+.editor-field > textarea:focus {
+  outline: none;
+  background-color: rgb(51, 51, 51);
+}
+
+.editor-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.editor-buttons > button {
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
+}

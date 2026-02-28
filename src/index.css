@@ -21,6 +21,7 @@ body {
   background-repeat: no-repeat;
   background: fixed;
   background-position: center;
+  overflow-y: scroll;
 }
 
 #modal-screen {

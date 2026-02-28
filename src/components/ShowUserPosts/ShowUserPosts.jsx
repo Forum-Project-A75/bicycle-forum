@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import MyPostCard from "../../views/MyPostsCard/MyPostsCard";
-import { getUserPostPage, getPostDirectComments} from "../../Services/posts.services/post.services";
+import { getUserPostPage, getPostDirectComments, getCommentsFiltered} from "../../Services/posts.services/post.services";
 import PostEditor from "../../views/PostEditor/PostEditor";
 import { createLogger, LOG_MODULES } from "../../debug/debug";
 import { PAGE_SIZE } from "../../constants";
@@ -29,7 +29,9 @@ export default function ShowUserPosts() {
 
       const enrichedPosts = await Promise.all(
         newPosts.map(async (post) => {
-          const data = await getPostDirectComments(post.id);
+          //const data = await getPostDirectComments(post.id);
+          const data = await getCommentsFiltered(post.id);
+          
 
           return {
             ...post,

@@ -89,6 +89,7 @@ export const getUserPostPage = async (from, limit, userId) => {
       `)
       .eq("fk_user_id", userId)
       .is("fk_parent_id", null) 
+      .eq("fk_post_status_id", 1)
       .order("created_on", { ascending: false })
       .range(from, from + limit - 1);
 
@@ -205,6 +206,7 @@ export const getPostPage = async (from, limit) => {
         )
       `)
       .is("fk_parent_id", null) 
+      .eq("fk_post_status_id", 1)
       .order("created_on", { ascending: false })
       .range(from, from + limit - 1);
 
@@ -239,7 +241,18 @@ export const getPostDirectComments = async (pPostID) => {
 };
 
 
+export const getCommentsFiltered = async (postID) => {
+  const { data, error } = await supabase.rpc('get_post_tree_filtered', {
+    p_post_id: postID,
+  });
 
+  if (error) {
+    console.log("getComments: ", error.message);
+    throw new Error(error);
+  }
+
+  return data;
+}
 
 
 export const getComments = async (pPostID) => {

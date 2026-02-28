@@ -1,12 +1,19 @@
 import './UserDetails.css';
 import moment from 'moment';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function UserDetails({ user, hideDetails, saveChanges }) {
   const [changes, setChanges] = useState({
     status: user.user_statuses.name,
     type: user.user_types.name,
   });
+
+  useEffect(() => {
+    document.getElementById('modal-screen').style.display = 'block';
+    return () => {
+      document.getElementById('modal-screen').style.display = 'none';
+    };
+  }, []);
 
   return (
     <dialog className="user-details-modal" open={true}>

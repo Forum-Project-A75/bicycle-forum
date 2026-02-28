@@ -63,26 +63,30 @@ export default function UserModeration() {
   return (
     <div className="user-moderation">
       <p>User Moderation Page</p>
-      <input
-        type="search"
-        name="search"
-        id="search-input"
-        placeholder="Search users..."
-        onChange={handleSearchChange}
-      />
-      <button onClick={fetchUsers}>Search</button>
-      {error && <p className="error">{error}</p>}
-      {users.length > 0 && (
-        <div id="users-list">
-          {users.map((user) => (
-            <UserSearchNode
-              key={`user-${user.handle}`}
-              user={user}
-              showDetails={setSelectedUser}
-            />
-          ))}
-        </div>
-      )}
+      <div>
+        <input
+          type="search"
+          name="search"
+          id="search-input"
+          placeholder="Search users..."
+          onChange={handleSearchChange}
+        />
+        <button onClick={fetchUsers}>Search</button>
+      </div>
+      <div id="search-results">
+        {error && <p className="error">{error}</p>}
+        {users.length > 0 && (
+          <div id="users-list">
+            {users.map((user) => (
+              <UserSearchNode
+                key={`user-${user.handle}`}
+                user={user}
+                showDetails={setSelectedUser}
+              />
+            ))}
+          </div>
+        )}
+      </div>
       {selectedUser && (
         <UserDetails
           user={selectedUser}

@@ -1,6 +1,7 @@
 #post-details {
   margin-top: 2em;
   background-color: rgb(95, 53, 131);
+  border: 2px solid rgb(55, 31, 77);
   color: white;
   padding: 20px;
   border-radius: 15px;

@@ -3,7 +3,21 @@ import { supabase } from '../../config/supabase-config';
 export const getUserByEmail = async (email) => {
   const { data, error } = await supabase
     .from('users')
-    .select('*')
+    .select(
+      `
+    created_on,
+    uid,
+    handle,
+    first_name,
+    last_name,
+    email,
+    user_types  (
+      name
+    ),
+    user_statuses (
+    name
+    )`,
+    )
     .eq('email', email);
 
   if (error) {
@@ -181,22 +195,18 @@ export const updateUserType = async (uid, type) => {
   }
 };
 
-
-
-
 export const updateAvatar = async (avatar) => {
   const { data, error } = await supabase.rpc('update_avatar', {
     p_avatar_url: avatar,
   });
 
   if (error) {
-    console.log("updateAvatar: ", error.message);
+    console.log('updateAvatar: ', error.message);
     throw new Error(error);
   }
 
   return data;
 };
-
 
 export const updateUserNames = async (firstName, lastName) => {
   const { data, error } = await supabase.rpc('update_user_names', {
@@ -205,7 +215,7 @@ export const updateUserNames = async (firstName, lastName) => {
   });
 
   if (error) {
-    console.log("updateUserNames: ", error.message);
+    console.log('updateUserNames: ', error.message);
     throw new Error(error);
   }
 
@@ -214,14 +224,11 @@ export const updateUserNames = async (firstName, lastName) => {
 
 export async function searchUsersByHandle(query) {
   const { data, error } = await supabase
-    .from("users")
-    .select("uid, handle")
-    .ilike("handle", `%${query}%`)
+    .from('users')
+    .select('uid, handle')
+    .ilike('handle', `%${query}%`)
     .limit(10);
 
   if (error) throw error;
   return data;
 }
-
-
-

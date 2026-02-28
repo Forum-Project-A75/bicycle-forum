@@ -9,7 +9,7 @@
   z-index: 1000;
 }
 
-.dropdown {
+.admin-search-dropdown {
   position: relative;
   display: inline-block;
 }
@@ -34,10 +34,10 @@
   background-color: #ddd;
 }
 
-.dropdown:hover .dropdown-content {
+.admin-search-dropdown:hover .dropdown-content {
   display: block;
 }
 
-.dropdown:hover .dropbtn {
+.admin-search-dropdown:hover .dropbtn {
   background-color: #3e8e41;
 }

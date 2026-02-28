@@ -21,7 +21,7 @@ export default function UserDetails({ user, hideDetails, saveChanges }) {
       </p>
       <div id="user-type">
         <p>User Type: {changes.type}</p>
-        <div className="dropdown">
+        <div className="admin-search-dropdown">
           <button className="dropbtn">Change Type</button>
           <div className="dropdown-content">
             <a
@@ -41,7 +41,7 @@ export default function UserDetails({ user, hideDetails, saveChanges }) {
       </div>
       <div id="user-status">
         <p>Status: {changes.status}</p>
-        <div className="dropdown">
+        <div className="admin-search-dropdown">
           <button className="dropbtn">Change Status</button>
           <div className="dropdown-content">
             <a

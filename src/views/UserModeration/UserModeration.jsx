@@ -1,5 +1,8 @@
 import './UserModeration.css';
-import { searchUsers } from '../../Services/db.services/user.services.js';
+import {
+  searchUsers,
+  getUserByEmail,
+} from '../../Services/db.services/user.services.js';
 import { useState } from 'react';
 import UserSearchNode from '../UserSearchNode/UserSearchNode.jsx';
 import UserDetails from '../UserDetails/UserDetails.jsx';
@@ -16,22 +19,36 @@ export default function UserModeration() {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const fetchUsers = async () => {
-    if (handle.trim().length < 3) {
+    if (handle.length < 3) {
       setError('Please enter at least 3 characters to search.');
       return;
     }
-    try {
-      const usersData = await searchUsers(handle);
-      setUsers(usersData);
-      setError(null);
-    } catch (error) {
-      console.error('Error fetching users:', error);
+
+    const isEmail =
+      handle.match(/^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$/gm)?.length > 0;
+
+    if (isEmail) {
+      try {
+        const userData = await getUserByEmail(handle);
+        setUsers(userData ? userData : []);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching user by email:', error);
+      }
+    } else {
+      try {
+        const usersData = await searchUsers(handle);
+        setUsers(usersData);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
     }
   };
 
   const handleSearchChange = (e) => {
     const handle = e.target.value;
-    setHandle(handle);
+    setHandle(handle.trim());
   };
 
   const saveChanges = async (uid, changes) => {
@@ -59,7 +76,7 @@ export default function UserModeration() {
         <div id="users-list">
           {users.map((user) => (
             <UserSearchNode
-              key={user.handle}
+              key={`user-${user.handle}`}
               user={user}
               showDetails={setSelectedUser}
             />

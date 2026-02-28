@@ -16,6 +16,7 @@
   flex-direction: row;
   width: 100%;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 @media (max-width: 1150px) {
@@ -27,9 +28,50 @@
 
 #names {
   display: flex;
+  gap: 0.5rem;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.075);
+  padding: 1rem;
+  border-radius: 15px;
+}
+
+#names > .email,
+#names > .handle {
+  border-radius: 15px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+#names > .email > p,
+#names > .handle > p {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+#names > .email > p:last-child,
+#names > .handle > p:last-child {
+  background-color: rgba(0, 0, 0, 0.192);
+  padding: 0.2rem 0.5rem;
+  width: 100%;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+#names > button {
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.1s ease;
 }
 
 #avatar-field {
@@ -37,12 +79,42 @@
   flex-direction: row;
   align-items: center;
   gap: 1rem;
+  background-color: rgba(255, 255, 255, 0.075);
+  border-radius: 15px;
+  height: fit-content;
+}
+
+@media (max-width: 650px) {
+  #avatar-field {
+    flex-direction: column;
+  }
 }
 
 #avatar-field div {
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+#avatar-field > div > button,
+#avatar-field > div > input {
+  border-radius: 10px;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.1s ease;
+}
+
+#avatar-field > div > input::file-selector-button {
+  display: none;
+}
+
+#avatar-field > div > button:hover {
+  background-color: rgb(51, 51, 51);
 }
 
 #avatar-field img {
@@ -51,6 +123,7 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid rgb(55, 31, 77);
+  margin: 0.5rem;
 }
 
 hr {

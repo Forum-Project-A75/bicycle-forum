@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {
   getComments,
   buildCommentTree,
+  getCommentsFiltered
 } from '../../Services/posts.services/post.services';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
 import CommentNode from '../../components/CommentNode/CommentNode';
@@ -22,7 +23,7 @@ export default function PostDetails() {
   useEffect(() => {
     const load = async () => {
       log.log('id: ', id);
-      const data = await getComments(id);
+      const data = await getCommentsFiltered(id);
       log.log('incoming post data: ', data);
       const postTree = buildCommentTree(data);
       log.log('tree data: ', postTree);

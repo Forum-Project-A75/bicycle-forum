@@ -18,18 +18,28 @@ export default function UserDetails({ user, hideDetails, saveChanges }) {
   return (
     <dialog className="user-details-modal" open={true}>
       <h2>User Details</h2>
-      <p>
-        Name: {user.first_name} {user.last_name}
-      </p>
-      <p>Handle: {user.handle}</p>
-      <p>Email: {user.email}</p>
-      <p>
-        Registered on: {moment(user.created_on).format('YYYY-MM-DD HH:mm:ss')}
-      </p>
-      <div id="user-type">
-        <p>User Type: {changes.type}</p>
+      <div className="info-line">
+        <p>Name:</p>
+        <p>
+          {user.first_name} {user.last_name}
+        </p>
+      </div>
+      <div className="info-line">
+        <p>Handle:</p>
+        <p>{user.handle}</p>
+      </div>
+      <div className="info-line">
+        <p>Email:</p>
+        <p>{user.email}</p>
+      </div>
+      <div className="info-line">
+        <p>Registered on:</p>
+        <p>{moment(user.created_on).format('YYYY-MM-DD HH:mm:ss')}</p>
+      </div>
+      <div id="user-type" className="info-line">
+        <p>User Type:</p>
         <div className="admin-search-dropdown">
-          <button className="dropbtn">Change Type</button>
+          <button className="dropbtn">{changes.type}</button>
           <div className="dropdown-content">
             <a
               href="#"
@@ -46,10 +56,10 @@ export default function UserDetails({ user, hideDetails, saveChanges }) {
           </div>
         </div>
       </div>
-      <div id="user-status">
-        <p>Status: {changes.status}</p>
+      <div id="user-status" className="info-line">
+        <p>Status:</p>
         <div className="admin-search-dropdown">
-          <button className="dropbtn">Change Status</button>
+          <button className="dropbtn">{changes.status}</button>
           <div className="dropdown-content">
             <a
               href="#"
@@ -72,7 +82,10 @@ export default function UserDetails({ user, hideDetails, saveChanges }) {
           </div>
         </div>
       </div>
-      <p>UID: {user.uid}</p>
+      <div className="info-line">
+        <p>UID:</p>
+        <p>{user.uid}</p>
+      </div>
       <button onClick={() => hideDetails()}>Close</button>
       <button
         onClick={() => {

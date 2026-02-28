@@ -1,6 +1,5 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-//import { getPostById } from "../../Services/db.services/post.services";
 import {
   getComments,
   buildCommentTree,
@@ -45,7 +44,6 @@ export default function PostDetails() {
             upvotes={tree.upvotes}
             downvotes={tree.downvotes}
             userVote={tree.my_vote}
-            tree={tree}
             setTree={setTree}
           />
         }

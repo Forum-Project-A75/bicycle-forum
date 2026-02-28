@@ -72,6 +72,7 @@ export default function Register() {
         firstName: data.first_name,
         lastName: data.last_name,
         email: data.email,
+        userStatus: data.fk_user_status_id
       });
 
       // 6. navigate AFTER everything is ready

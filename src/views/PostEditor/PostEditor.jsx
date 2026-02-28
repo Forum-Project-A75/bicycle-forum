@@ -14,7 +14,7 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
 
 
 
-  const { user } = useAuth();
+  const { user, userData } = useAuth();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [errors, setErrors] = useState({});
@@ -51,6 +51,11 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
 
   const handleSave = async () => {
 
+    if(userData.userStatus !== 1) {
+      alert("You are not authorized to create or edit posts.");
+      return;
+    }
+
     let data = { title: title, content: content };
 
     let newErrors = validate(data);
@@ -84,7 +89,7 @@ export default function PostEditor({ parentPostId = null, postId = null, onSave 
         for (let tag of tagData) {
            tag = tag.trim();
            if(tag.length === 0) continue; // do not process empty tags
-           tag = tag.toUpperCase(); // all tags will be with upercase 
+           tag = tag.toLocaleLowerCase(); // all tags will be with lowercase 
            const tagId = await getOrCreateTag(tag);
            insertPostTags(result.id, tagId);
         }

@@ -15,7 +15,8 @@ export const LOG_MODULES = {
     CREATE_COMMENT: "CREATE_COMMENT",
     VOTE_PANEL: "VOTE_PANEL",
     SHOW_POSTS: "SHOW_POSTS",
-    COMMENT_NODE: "COMMENT_NODE"
+    COMMENT_NODE: "COMMENT_NODE",
+    MY_POSTS_CARD: "MY_POSTS_CARD"
 };
 
 export const LOG_CONFIG = {
@@ -34,7 +35,8 @@ export const LOG_CONFIG = {
     CREATE_COMMENT: true,
     VOTE_PANEL: true,
     SHOW_POSTS: true,
-    COMMENT_NODE: true
+    COMMENT_NODE: true,
+    MY_POSTS_CARD: true
 };
 
 

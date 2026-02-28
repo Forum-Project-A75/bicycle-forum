@@ -71,7 +71,125 @@ export async function insertPostTags(postID, tagID) {
 }
 
 
-export const getPostPage = async (from, to) => {
+
+export const getUserPostPage = async (from, limit, userId) => {
+  const { data, error } = await supabase
+      .from("posts")
+      .select(`
+         id,
+         title,
+         created_on,
+        user:users!posts_fk_user_id_fkey (
+           uid,
+           handle,
+           first_name,
+           last_name,
+           avatar_url
+        )
+      `)
+      .eq("fk_user_id", userId)
+      .is("fk_parent_id", null) 
+      .order("created_on", { ascending: false })
+      .range(from, from + limit - 1);
+
+  if (error) {
+    log.error("getPostPage: ", error.message);
+    throw error;
+  }
+
+  log.log("getPostPage returned data: ", data);
+
+
+  return data.map(p => ({
+    id: p.id,
+    title: p.title,
+    created_at: p.created_on,
+    handle: p.user.handle,
+    avatar: p.user.avatar_url
+  }));
+}
+
+
+export async function getUserContentPage(userId, type, offset, limit) {
+  let query = supabase
+    .from("posts")
+    .select(`
+         id,
+         title,
+         content,
+         created_on,
+        user:users!posts_fk_user_id_fkey (
+           uid,
+           handle,
+           first_name,
+           last_name,
+           avatar_url
+        )
+      `)
+    .eq("fk_user_id", userId)
+    .order("created_on", { ascending: false })
+    .range(offset, offset + limit - 1);
+
+  if (type === "posts") {
+    query = query.is("fk_parent_id", null);
+  } else if (type === "comments") {
+    query = query.not("fk_parent_id", "is", null);
+  }
+
+  const { data, error } = await query;
+
+  if (error) throw error;
+
+   return data.map(p => ({
+    id: p.id,
+    title: p.title,
+    created_at: p.created_on,
+    handle: p.user.handle,
+    avatar: p.user.avatar_url
+  }));
+}
+
+
+export const getUserCommentPage = async (from, limit, userId) => {
+  const { data, error } = await supabase
+      .from("posts")
+      .select(`
+         id,
+         title,
+         content,
+         created_on,
+        user:users!posts_fk_user_id_fkey (
+           uid,
+           handle,
+           first_name,
+           last_name,
+           avatar_url
+        )
+      `)
+      .eq("fk_user_id", userId)
+      .not("fk_parent_id", "is", null) 
+      .order("created_on", { ascending: false })
+      .range(from, from + limit - 1);
+
+  if (error) {
+    log.error("getPostPage: ", error.message);
+    throw error;
+  }
+
+  log.log("getPostPage returned data: ", data);
+
+
+  return data.map(p => ({
+    id: p.id,
+    title: p.content,
+    created_at: p.created_on,
+    handle: p.user.handle,
+    avatar: p.user.avatar_url
+  }));
+}
+
+
+export const getPostPage = async (from, limit) => {
   const { data, error } = await supabase
       .from("posts")
       .select(`
@@ -88,7 +206,7 @@ export const getPostPage = async (from, to) => {
       `)
       .is("fk_parent_id", null) 
       .order("created_on", { ascending: false })
-      .range(from, to);
+      .range(from, from + limit - 1);
 
   if (error) {
     log.error("getPostPage: ", error.message);

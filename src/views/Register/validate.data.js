@@ -33,13 +33,13 @@ export const checkUserRegistrationData = async (user) => {
 
     if(!user.firstName) {
         errors.firstName = 'Please enter First Name';
-    } else if(user.firstName < MIN_NAME_LENGTH && user.firstName > MAX_NAME_LENGTH) {
+    } else if(user.firstName.length < MIN_NAME_LENGTH || user.firstName.length > MAX_NAME_LENGTH) {
         errors.firstName = `First Name should have at least ${MIN_NAME_LENGTH} symbols and not great than ${MAX_NAME_LENGTH} symbols`;
     }
 
     if(!user.lastName) {
         errors.lastName = 'Please enter Last Name';
-    } else if(user.lastName < MIN_NAME_LENGTH && user.lastName > MAX_NAME_LENGTH) {
+    } else if(user.lastName.length < MIN_NAME_LENGTH || user.lastName.length > MAX_NAME_LENGTH) {
         errors.lastName = `Last Name should have at least ${MIN_NAME_LENGTH} symbols and not great than ${MAX_NAME_LENGTH} symbols`;
     }
 

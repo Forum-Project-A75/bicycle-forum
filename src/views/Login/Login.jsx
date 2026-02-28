@@ -38,6 +38,7 @@ export default function Login() {
         firstName: data.first_name,
         lastName: data.last_name,
         email: data.email,
+        userStatus: data.fk_user_status_id
       });
 
       setUser(supaUser);

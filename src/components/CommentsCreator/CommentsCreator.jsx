@@ -4,6 +4,7 @@ import { validate } from './validate.data.js';
 import { MAX_POST_CONTENT_LENGTH } from "../../constants.js";
 import { createPost } from "../../Services/posts.services/post.services.js";
 import { createLogger, LOG_MODULES } from "../../debug/debug.js";
+import { useAuth } from "../../hoc/auth-context.jsx";
 
 const log = createLogger(LOG_MODULES.CREATE_COMMENT);
 
@@ -11,12 +12,12 @@ export default function CommentsCreator({ userId, parentId, setReplying, setTree
 
   const [content, setContent] = useState("");
   const [errors, setErrors] = useState({});
+  const {userData} = useAuth();
 
   log.log("incomming data: ", userId, parentId);
 
   function addCommentToTree(node, parentId, newComment) {
     if (node.id === parentId) {
-      // Добавяме новия коментар като дете
       const newChildren = node.children ? [...node.children, newComment] : [newComment];
       return {
         ...node,
@@ -46,12 +47,10 @@ export default function CommentsCreator({ userId, parentId, setReplying, setTree
   function replaceNodeId(node, tempId, realId) {
     if (!node) return node;
 
-    // ако това е node с tempId
     if (node.id === tempId) {
       return { ...node, id: realId };
     }
 
-    // ако има деца — рекурсивно
     if (node.children && node.children.length > 0) {
       let changed = false;
       const newChildren = node.children.map(child => {
@@ -81,7 +80,7 @@ export default function CommentsCreator({ userId, parentId, setReplying, setTree
       // map + filter to remove all chald nodes
       const newChildren = node.children
         .map(child => removeNodeById(child, targetId))
-        .filter(Boolean); // премахваме null
+        .filter(Boolean); // remove null
 
         if (newChildren.length !== node.children.length) {
           changed = true;
@@ -97,6 +96,11 @@ export default function CommentsCreator({ userId, parentId, setReplying, setTree
   }
 
   const submit = async () => {
+
+    if(userData.userStatus !== 1) {
+      alert("You are not authorized to comment posts.");
+      return;
+    }
 
     let newErrors = validate(content);
     if (Object.keys(newErrors).length !== 0) {

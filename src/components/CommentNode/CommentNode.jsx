@@ -24,7 +24,6 @@ export default function CommentNode({ comment, tree, setTree }) {
             upvotes={comment.upvotes}
             downvotes={comment.downvotes}
             userVote={comment.my_vote}
-            tree={tree}
             setTree={setTree}
           />
         }

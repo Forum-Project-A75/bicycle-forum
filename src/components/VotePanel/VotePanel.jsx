@@ -10,7 +10,6 @@ export default function VotePanel({
   upvotes,
   downvotes,
   userVote,
-  tree,
   setTree
 }) {
   

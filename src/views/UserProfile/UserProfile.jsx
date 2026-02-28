@@ -6,6 +6,7 @@ import { getAvatarUrl } from '../../Services/user.services/user.service.js';
 import { createLogger, LOG_MODULES } from '../../debug/debug.js';
 import { useState, useEffect } from 'react';
 import { checkInputUserData } from './validate.data.js';
+import ShowUserPosts from '../../components/ShowUserPosts/ShowUserPosts.jsx';
 
 
 const log = createLogger(LOG_MODULES.USER_PROFILE);
@@ -20,6 +21,8 @@ export default function UserProfile() {
   });
   const [registrationErrors, setRegistrationErrors] = useState({});
   //const defaultAvatar = '../../../images/default.png';
+
+  const [activeTab, setActiveTab] = useState("profile");
 
   const setImage = (event) => {
     const file = event.target.files[0];
@@ -76,7 +79,9 @@ export default function UserProfile() {
   };
 
   const handleSave = async () => {
+    log.log("handleSave: ", updatedState);
     const validationErrors = checkInputUserData(updatedState);
+    log.log("validationErrors: ", validationErrors);
     
     if (Object.keys(validationErrors).length !== 0) {
       setRegistrationErrors(validationErrors);
@@ -103,9 +108,89 @@ export default function UserProfile() {
 
   return (
     <div id="user-profile">
+
+
+    <div className="tabs">
+  <button
+    className={activeTab === "profile" ? "active" : ""}
+    onClick={() => setActiveTab("profile")}
+  >
+    Edit Profile
+  </button>
+
+  <button
+    className={activeTab === "posts" ? "active" : ""}
+    onClick={() => setActiveTab("posts")}
+  >
+    My Posts
+  </button>
+
+  <button
+    className={activeTab === "comments" ? "active" : ""}
+    onClick={() => setActiveTab("comments")}
+  >
+    My Comments
+  </button>
+</div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <p>Edit Details</p>
       <hr />
-      <div id="edit-section">
+
+      {activeTab === "posts" && (
+  <ShowUserPosts />
+)}
+
+
+      {activeTab === "profile" && (<div id="edit-section">
         <div className="field" id="avatar-field">
           <img src={preview || dbAvatar} alt="avatar" />
           <div>
@@ -170,12 +255,24 @@ export default function UserProfile() {
               Save Changes
           </button>
         </div>
-      </div>
+      </div>)}
+
+   
+      
     </div>
+              
   );
+
+
+
+
+
+
+
+
+
+
+
 }
 
-//{preview || dbAvatar || defaultAvatar && (<img src={preview || dbAvatar || defaultAvatar} alt="avatar" style={{width: "150px", height: "150px", borderRadius: "50%"}}/>)}
-//<div>Profile Welcome:</div>
 
-//<img src={preview || dbAvatar || defaultAvatar} alt="avatar" />

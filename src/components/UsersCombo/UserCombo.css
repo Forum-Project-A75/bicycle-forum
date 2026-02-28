@@ -1,0 +1,26 @@
+.combobox {
+  position: relative;
+  width: 250px;
+}
+
+.dropdown {
+  position: absolute;
+  width: 100%;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  color: black;   
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+  color: black;   
+}
+
+.dropdown-item:hover {
+  background: #eee;
+  color: black; 
+}

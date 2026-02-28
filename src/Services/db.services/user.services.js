@@ -116,6 +116,7 @@ export const getUserData = async (uid) => {
     first_name,
     last_name,
     email,
+    fk_user_status_id,
     user_types  (
       name
     )
@@ -210,6 +211,17 @@ export const updateUserNames = async (firstName, lastName) => {
 
   return data;
 };
+
+export async function searchUsersByHandle(query) {
+  const { data, error } = await supabase
+    .from("users")
+    .select("uid, handle")
+    .ilike("handle", `%${query}%`)
+    .limit(10);
+
+  if (error) throw error;
+  return data;
+}
 
 
 

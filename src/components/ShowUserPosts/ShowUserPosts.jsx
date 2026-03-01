@@ -1,15 +1,11 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import MyPostCard from '../../views/MyPostsCard/MyPostsCard';
-import {
-  getUserPostPage,
-  getPostDirectComments,
-  getCommentsFiltered,
-  getPostStats,
-} from '../../Services/posts.services/post.services';
-import PostEditor from '../../views/PostEditor/PostEditor';
-import { createLogger, LOG_MODULES } from '../../debug/debug';
-import { PAGE_SIZE } from '../../constants';
-import { useAuth } from '../../hoc/auth-context';
+import { useEffect, useState, useCallback, useRef } from "react";
+import MyPostCard from "../../views/MyPostsCard/MyPostsCard";
+import { getUserPostPage, getPostStats} from "../../Services/posts.services/post.services";
+import PostEditor from "../../views/PostEditor/PostEditor";
+import { createLogger, LOG_MODULES } from "../../debug/debug";
+import { PAGE_SIZE } from "../../constants";
+import { useAuth } from "../../hoc/auth-context";
+
 
 const log = createLogger(LOG_MODULES.SHOW_POSTS);
 
@@ -38,9 +34,6 @@ export default function ShowUserPosts() {
 
       const enrichedPosts = await Promise.all(
         newPosts.map(async (post) => {
-          //const data = await getPostDirectComments(post.id);
-          // const data = await getCommentsFiltered(post.id);
-          //const data = await getCommentsFiltered(post.id);
 
           const data = await getPostStats(post.id);
 

@@ -12,7 +12,7 @@ import {
   HOME_GET_LATEST_POSTS_COUNT,
   HOME_GET_MOST_COMMENTED_POSTS_COUNT,
 } from '../../constants.js';
-import { getPostDirectComments } from '../../Services/posts.services/post.services.js';
+import { getPostStats } from '../../Services/posts.services/post.services.js';
 
 const log = createLogger(LOG_MODULES.HOME);
 
@@ -45,7 +45,7 @@ export default function Home() {
 
         const enrichedLatestPosts = await Promise.all(
           resultLatestPosts.map(async (post) => {
-            const data = await getPostDirectComments(post.id);
+            const data = await getPostStats(post.post_id);
             log.log('resultLatestPosts data: ', data);
 
             return {
@@ -73,7 +73,7 @@ export default function Home() {
 
         const enrichedMostCommentedPosts = await Promise.all(
           resultMostCommentedPosts.map(async (post) => {
-            const data = await getPostDirectComments(post.id);
+            const data = await getPostStats(post.post_id);
             log.log('resultMostCommentedPosts data: ', data);
 
             return {
@@ -117,7 +117,7 @@ export default function Home() {
             <h2>Most Commented</h2>
             {postsData.mostCommented &&
               postsData.mostCommented.map((post) => (
-                <HomePostCard key={`most-commented-${post.id}`} post={post} />
+                <HomePostCard key={`most-commented-${post.post_id}`} post={post} />
               ))}
           </div>
         </div>

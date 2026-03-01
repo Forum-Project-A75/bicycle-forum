@@ -34,11 +34,11 @@ export default function HomePostCard({ post }) {
           <div className="post-meta">
             <img
               className="avatar"
-              src={post.avatar ?? defaultAvatar}
+              src={post.avatar_url ?? defaultAvatar}
               alt="avatar"
             />
 
-            <span className="author">{post.handle}</span>
+            <span className="author">{post.author_handle}</span>
 
             <span className="date">
               {new Date(post.created_on).toLocaleDateString()}

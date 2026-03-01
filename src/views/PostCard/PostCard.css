@@ -57,3 +57,7 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.post-status {
+  color: white;
+}

@@ -15,6 +15,7 @@ import UserProfile from './views/UserProfile/UserProfile.jsx';
 import { useAuth } from './hoc/auth-context.jsx';
 import PostEditor from './views/PostEditor/PostEditor.jsx';
 import ShowPosts from './components/ShowPosts/ShowPosts.jsx';
+import ShowPostsAdmin from './components/ShowPostsAdmin/ShowPostsAdmin.jsx';
 import PostDetails from './views/PostDetails/PostDetails.jsx';
 import UserModeration from './views/UserModeration/UserModeration.jsx';
 import PostModeration from './views/PostModeration/PostModeration.jsx';
@@ -47,8 +48,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
-          <Route path="/tags" element={  
-            <ProtectedRoute allowedRoles={['admin', 'user']}>
+          <Route
+            path="/tags"
+            element={
+              <ProtectedRoute allowedRoles={['admin', 'user']}>
                 <PostsTags />
               </ProtectedRoute>
             }
@@ -129,7 +132,7 @@ function App() {
             path="/posts"
             element={
               <ProtectedRoute allowedRoles={['user', 'admin']}>
-                <ShowPosts />{' '}
+                {userData?.role === 'user' ? <ShowPosts /> : <ShowPostsAdmin />}
               </ProtectedRoute>
             }
           />

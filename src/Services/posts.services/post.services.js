@@ -271,6 +271,8 @@ export const getPostPage = async (from, limit) => {
   }));
 }
 
+
+
 export const getPostDirectComments = async (pPostID) => {
   const { data, error } = await supabase.rpc('get_post_direct_comments', {
     p_post_id: pPostID,
@@ -283,6 +285,20 @@ export const getPostDirectComments = async (pPostID) => {
 
   return data;
 };
+
+export const getPostStats = async (postId) => {
+  const { data, error } = await supabase.rpc('get_post_stats', {
+      p_post_id: postId
+  });
+
+  if (error) {
+    throw error;
+  }
+  
+  return data;
+}
+
+
 
 
 export const getCommentsFiltered = async (postID) => {

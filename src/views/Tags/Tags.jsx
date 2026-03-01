@@ -5,7 +5,7 @@ import PostCard from "../PostCard/PostCard";
 import { getAllTags } from "../../Services/db.services/tags.services";
 import { createLogger, LOG_MODULES } from "../../debug/debug";
 import { getPostsFiltereByTag } from "../../Services/posts.services/post.services";
-import { getCommentsFiltered } from "../../Services/posts.services/post.services";
+import { getCommentsFiltered, getPostStats } from "../../Services/posts.services/post.services";
 
 const log = createLogger(LOG_MODULES.TAGS);
 
@@ -42,8 +42,8 @@ export default function PostsTags() {
          const enrichedPosts = await Promise.all(
                   tagedPostsData.map(async (post) => {
                     //const data = await getPostDirectComments(post.id);
-                    const data = await getCommentsFiltered(post.id);
-                    
+                    //const data = await getCommentsFiltered(post.id);
+                    const data = await getPostStats(post.id);
                     return {
                       ...post,
                       comment_count: data[0]?.comment_count ?? 0,

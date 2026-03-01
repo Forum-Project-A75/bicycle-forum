@@ -3,7 +3,7 @@ import PostCard from "../../views/PostCard/PostCard";
 import UserCombobox from "../UsersCombo/UsersCombo";
 import { createLogger, LOG_MODULES } from "../../debug/debug";
 import { PAGE_SIZE } from "../../constants";
-import { getPostPage, getUserPostPage, getPostDirectComments, getCommentsFiltered } from "../../Services/posts.services/post.services";
+import { getPostPage, getUserPostPage, getPostDirectComments, getCommentsFiltered, getPostStats } from "../../Services/posts.services/post.services";
 
 const log = createLogger(LOG_MODULES.SHOW_POSTS);
 
@@ -33,8 +33,9 @@ export default function ShowPosts() {
 
         const enrichedPosts = await Promise.all(
           postsData.map(async (post) => {
-            const data = await getPostDirectComments(post.id);
+            //const data = await getPostDirectComments(post.id);
             //const data = await getCommentsFiltered(post.id);
+            const data = await getPostStats(post.id);
             
             return {
               ...post,

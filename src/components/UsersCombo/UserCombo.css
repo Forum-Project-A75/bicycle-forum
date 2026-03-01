@@ -40,10 +40,12 @@
   box-sizing: border-box;
   border: none;
   background-color: rgba(0, 0, 0, 0.404);
+  transition: background-color 0.2s;
 }
 
 .combobox-input input:focus {
   outline: none;
+  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .combobox-input > button {
@@ -53,6 +55,7 @@
   box-sizing: border-box;
   border: none;
   background-color: rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s;
 }
 
 .combobox-input > button:hover {

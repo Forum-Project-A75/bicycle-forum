@@ -21,18 +21,19 @@ export default function MyPostCard({ post, onClick }) {
           <div className="comments">💬 {post.comment_count ?? 0}</div>
         </div>
 
-        <div className="post-main">
-          <h3 className="post-title">{post.title}</h3>
-
-          <div className="post-meta">
+        <div className="post-meta">
+          <div className="postcard-author-info">
             <img
               className="avatar"
               src={post.avatar ?? defaultAvatar}
               alt="avatar"
             />
-
             <span className="author">{post.handle}</span>
+          </div>
 
+          <h3 className="post-title">{post.title}</h3>
+
+          <div className="postcard-bottom">
             <VisibilityModerationUser
               post_status_id={post.status_id}
               post_id={post.id}

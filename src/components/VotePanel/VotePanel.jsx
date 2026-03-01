@@ -100,6 +100,7 @@ export default function VotePanel({
   return (
     <div className="vote-panel">
       <button
+        style={userVote === 1 ? { backgroundColor: '#646cff' } : {}}
         className={userVote === 1 ? 'up active' : 'up'}
         onClick={handleUp}
       >
@@ -120,6 +121,7 @@ export default function VotePanel({
       </div>
 
       <button
+        style={userVote === -1 ? { backgroundColor: '#646cff' } : {}}
         className={userVote === -1 ? 'down active' : 'down'}
         onClick={handleDown}
       >

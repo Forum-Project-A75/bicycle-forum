@@ -12,6 +12,7 @@ import CommentsCreator from '../../components/CommentsCreator/CommentsCreator';
 import VotePanel from '../../components/VotePanel/VotePanel';
 import './PostDetails.css';
 import { formatDateTime } from '../../Services/DateTimeFormat/DateTimeFormat';
+import { post_statuses } from '../../constants';
 
 const log = createLogger(LOG_MODULES.POST_DETAILS);
 
@@ -43,35 +44,48 @@ export default function PostDetails({ isAdmin = false }) {
 
   return (
     <div id="post-details">
-      <div id="post-container">
-        {
-          <VotePanel
-            postId={tree.id}
-            score={tree.score}
-            upvotes={tree.upvotes}
-            downvotes={tree.downvotes}
-            userVote={tree.my_vote}
-            setTree={setTree}
-          />
-        }
-        <div>
-          <span className="author">{tree.username}</span>
-          <span className="date">{formatDateTime(tree.created_on)}</span>
-          <h1>{tree.title}</h1>
-          {tree.content}
-
-          <button onClick={() => setReplying(true)}>Reply</button>
-
-          {replying && (
-            <CommentsCreator
-              userId={user.id}
-              parentId={tree.id}
-              setReplying={setReplying}
+      <div>
+        <div id="post-container">
+          {
+            <VotePanel
+              postId={tree.id}
+              score={tree.score}
+              upvotes={tree.upvotes}
+              downvotes={tree.downvotes}
+              userVote={tree.my_vote}
               setTree={setTree}
-              username={userData.handle}
             />
-          )}
+          }
+          <div id="main-post-content">
+            <div id="main-post-left">
+              <span className="author">{tree.username}</span>
+            </div>
+
+            <div id="main-post-content-center">
+              <h1>{tree.title}</h1>
+              {tree.content}
+              <button onClick={() => setReplying(true)}>Reply</button>
+            </div>
+
+            <div id="main-post-right">
+              {isAdmin && (
+                <p className="main-post-status">
+                  {post_statuses[tree.fk_post_status_id]}
+                </p>
+              )}
+              <span className="date">{formatDateTime(tree.created_on)}</span>
+            </div>
+          </div>
         </div>
+        {replying && (
+          <CommentsCreator
+            userId={user.id}
+            parentId={tree.id}
+            setReplying={setReplying}
+            setTree={setTree}
+            username={userData.handle}
+          />
+        )}
       </div>
 
       <div id="comments-container">

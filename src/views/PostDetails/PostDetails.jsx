@@ -77,7 +77,13 @@ export default function PostDetails({ isAdmin = false }) {
       <div id="comments-container">
         <h3>Comments</h3>
         {tree.children.map((c) => (
-          <CommentNode key={c.id} comment={c} tree={tree} setTree={setTree} />
+          <CommentNode
+            key={c.id}
+            comment={c}
+            tree={tree}
+            setTree={setTree}
+            isAdmin={isAdmin}
+          />
         ))}
       </div>
     </div>

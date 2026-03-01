@@ -4,12 +4,17 @@ import { useAuth } from '../../hoc/auth-context';
 import VotePanel from '../VotePanel/VotePanel';
 import './CommentNode.css';
 import { formatDateTime } from '../../Services/DateTimeFormat/DateTimeFormat';
+import { post_statuses } from '../../constants';
 //import { createLogger, LOG_MODULES } from '../../debug/debug';
 
 //const log = createLogger(LOG_MODULES.COMMENT_NODE);
 
-
-export default function CommentNode({ comment, tree, setTree }) {
+export default function CommentNode({
+  comment,
+  tree,
+  setTree,
+  isAdmin = false,
+}) {
   const [replying, setReplying] = useState(false);
   const { user, userData } = useAuth();
 
@@ -25,15 +30,17 @@ export default function CommentNode({ comment, tree, setTree }) {
             upvotes={comment.upvotes}
             downvotes={comment.downvotes}
             userVote={comment.my_vote}
-
             setTree={setTree}
           />
         }
         <div>
           <span className="author">{comment.username}</span>
-          <span className="date">
-              {formatDateTime(comment.created_on)}
-          </span>
+          <span className="date">{formatDateTime(comment.created_on)}</span>
+          {isAdmin && (
+            <div className="comment-status">
+              {post_statuses[comment.fk_post_status_id]}
+            </div>
+          )}
           <div className="comment-content">{comment.content}</div>
           <div className="reply-container">
             <button className="reply-button" onClick={() => setReplying(true)}>
@@ -54,7 +61,13 @@ export default function CommentNode({ comment, tree, setTree }) {
       </div>
       {/* ДЕЦАТА */}
       {comment.children.map((child) => (
-        <CommentNode key={child.id} comment={child} tree={tree} setTree={setTree} />
+        <CommentNode
+          key={child.id}
+          comment={child}
+          tree={tree}
+          setTree={setTree}
+          isAdmin={isAdmin}
+        />
       ))}
     </div>
   );

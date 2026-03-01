@@ -29,12 +29,6 @@ export default function AdminNav() {
         to="/admin/users"
         className={({ isActive }) => (isActive ? 'active' : '')}
       >
-        Users
-      </NavLink>
-      <NavLink
-        to="/admin/posts"
-        className={({ isActive }) => (isActive ? 'active' : '')}
-      >
         Moderation
       </NavLink>
       <NavLink

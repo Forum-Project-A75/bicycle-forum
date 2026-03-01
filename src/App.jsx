@@ -18,7 +18,6 @@ import ShowPosts from './components/ShowPosts/ShowPosts.jsx';
 import ShowPostsAdmin from './components/ShowPostsAdmin/ShowPostsAdmin.jsx';
 import PostDetails from './views/PostDetails/PostDetails.jsx';
 import UserModeration from './views/UserModeration/UserModeration.jsx';
-import PostModeration from './views/PostModeration/PostModeration.jsx';
 import PostsTags from './views/Tags/Tags.jsx';
 
 function App() {
@@ -61,14 +60,6 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <UserModeration />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/posts"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <PostModeration />
               </ProtectedRoute>
             }
           />
@@ -146,6 +137,7 @@ function App() {
               )
             }
           />
+          <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

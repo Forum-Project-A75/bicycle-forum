@@ -135,7 +135,6 @@ export default function UserProfile() {
           My Comments
         </button>
       </div>
-      <p>Edit Details</p>
       <hr />
 
       {activeTab === 'posts' && <ShowUserPosts />}

@@ -11,6 +11,7 @@ import { useAuth } from '../../hoc/auth-context';
 import CommentsCreator from '../../components/CommentsCreator/CommentsCreator';
 import VotePanel from '../../components/VotePanel/VotePanel';
 import './PostDetails.css';
+import { formatDateTime } from '../../Services/DateTimeFormat/DateTimeFormat';
 
 const log = createLogger(LOG_MODULES.POST_DETAILS);
 
@@ -49,6 +50,10 @@ export default function PostDetails() {
           />
         }
         <div>
+          <span className="author">{tree.username}</span>
+          <span className="date">
+            {formatDateTime(tree.created_on)}
+          </span>
           <h1>{tree.title}</h1>
           {tree.content}
 

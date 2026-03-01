@@ -18,6 +18,7 @@ import ShowPosts from './components/ShowPosts/ShowPosts.jsx';
 import PostDetails from './views/PostDetails/PostDetails.jsx';
 import UserModeration from './views/UserModeration/UserModeration.jsx';
 import PostModeration from './views/PostModeration/PostModeration.jsx';
+import PostsTags from './views/Tags/Tags.jsx';
 
 function App() {
   // const [userData, setUserData] = useState({
@@ -46,6 +47,12 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Home />} />
+          <Route path="/tags" element={  
+            <ProtectedRoute allowedRoles={['admin', 'user']}>
+                <PostsTags />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/admin/users"
             element={

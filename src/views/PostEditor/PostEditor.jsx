@@ -7,12 +7,13 @@ import {
 } from '../../Services/posts.services/post.services.js';
 import './PostEditor.css';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
-import { getOrCreateTag } from '../../Services/db.services/tags.services.js';
+import { getOrCreateTag, getTagsByPost, buildTagString } from '../../Services/db.services/tags.services.js';
 import { insertPostTags } from '../../Services/posts.services/post.services.js';
 import { validate } from './validate.data.js';
 import {
   MAX_POST_TITLE_LENGTH,
   MAX_POST_CONTENT_LENGTH,
+  DEFAULT_TAG_SEPARATOR
 } from '../../constants.js';
 
 const log = createLogger(LOG_MODULES.POST_EDITOR);
@@ -35,9 +36,17 @@ export default function PostEditor({
   useEffect(() => {
     if (!isEditMode) return;
 
+
+
     const load = async () => {
       try {
         const post = await getPostForEdit(postId);
+        const tags = await getTagsByPost(postId);
+
+        log.log("tags: ", tags);
+
+        const tagString = buildTagString(tags, DEFAULT_TAG_SEPARATOR);
+        setTags(tagString);
 
         setTitle(post.title ?? '');
         setContent(post.content ?? '');

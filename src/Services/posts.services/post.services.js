@@ -189,6 +189,50 @@ export const getUserCommentPage = async (from, limit, userId) => {
   }));
 }
 
+export const getPostsFiltereByTag = async (tagId) => {
+  const { data: tagRows, error: tagError } = await supabase
+    .from("post_tags")
+    .select("fk_post_id")
+    .eq("fk_tag_id", tagId);
+
+  if (tagError) throw tagError;
+
+  const postIds = tagRows.map(row => row.fk_post_id);
+
+  if (postIds.length === 0) return [];
+
+  const { data, error } = await supabase
+    .from("posts")
+    .select(`
+      id,
+      title,
+      content,
+      created_on,
+      user:users!posts_fk_user_id_fkey (
+        uid,
+        handle,
+        first_name,
+        last_name,
+        avatar_url
+      )
+    `)
+    .in("id", postIds)
+    .is("fk_parent_id", null)
+    .eq("fk_post_status_id", 1)
+    .order("created_on", { ascending: false });
+
+  if (error) throw error;
+
+
+  return data.map(p => ({
+    id: p.id,
+    title: p.content,
+    created_at: p.created_on,
+    handle: p.user.handle,
+    avatar: p.user.avatar_url
+  }));
+};
+
 
 export const getPostPage = async (from, limit) => {
   const { data, error } = await supabase

@@ -54,3 +54,33 @@ export const getOrCreateTag = async (tag) => {
 
     return data.id;
 };
+
+export const getAllTags = async () => {
+    const { data, error } = await supabase
+        .from("tags")
+        .select("id, name")
+        .order("name");
+
+      if (error) throw error;
+
+      return data;
+
+};
+
+export const getTagsByPost = async (postId) => {
+    const { data, error } = await supabase
+     .rpc("get_tags_by_post", { p_post_id: postId });
+
+    if (error)
+        throw error;
+
+    return data;
+}
+
+export const buildTagString = (tags, separator) => {
+  return tags.reduce((acc, tag, index) => {
+    if (index === 0) return `${separator}` + tag.name.toLowerCase();
+    return acc + ` ${separator}` + tag.name.toLowerCase();
+  }, "");
+};
+ 

@@ -15,7 +15,7 @@ export default function PostCard({ post, isAdminView = false }) {
         style={
           post.status === 'Hidden'
             ? { border: '2px solid blue' }
-            : post.status === 'Locked'
+            : post.status === 'Blocked'
               ? { border: '2px solid orange' }
               : post.status === 'Deleted'
                 ? { border: '2px solid red' }

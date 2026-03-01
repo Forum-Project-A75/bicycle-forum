@@ -5,6 +5,8 @@ import VotePanel from '../VotePanel/VotePanel';
 import './CommentNode.css';
 import { formatDateTime } from '../../Services/DateTimeFormat/DateTimeFormat';
 import { post_statuses } from '../../constants';
+import VisibilityModeration from '../VisibilityModeration/VisibilityModeration';
+import VisibilityModerationUser from '../VisibilityModerationUser/VisitbilityModerationUser';
 //import { createLogger, LOG_MODULES } from '../../debug/debug';
 
 //const log = createLogger(LOG_MODULES.COMMENT_NODE);
@@ -38,7 +40,10 @@ export default function CommentNode({
             <span className="author">{comment.username}</span>
             {isAdmin && (
               <div className="comment-status">
-                {post_statuses[comment.fk_post_status_id]}
+                <VisibilityModeration
+                  post_status_id={comment.fk_post_status_id}
+                  post_id={comment.id}
+                />
               </div>
             )}
           </div>

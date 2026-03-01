@@ -1,0 +1,13 @@
+.visibility-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.visibility-dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.visibility-dropdown:hover .dropbtn {
+  background-color: #a7a7a7;
+  border-radius: 15px 15px 0 0;
+}

@@ -6,8 +6,6 @@ import { PAGE_SIZE } from '../../constants';
 import {
   getPostPage,
   getUserPostPage,
-  getPostDirectComments,
-  getCommentsFiltered,
   getPostStats,
 } from '../../Services/posts.services/post.services';
 import './ShowPosts.css';
@@ -42,8 +40,6 @@ export default function ShowPosts() {
 
         const enrichedPosts = await Promise.all(
           postsData.map(async (post) => {
-            //const data = await getPostDirectComments(post.id);
-            //const data = await getCommentsFiltered(post.id);
             const data = await getPostStats(post.id);
 
             return {

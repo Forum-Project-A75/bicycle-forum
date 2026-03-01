@@ -12,7 +12,7 @@ import CommentsCreator from '../../components/CommentsCreator/CommentsCreator';
 import VotePanel from '../../components/VotePanel/VotePanel';
 import './PostDetails.css';
 import { formatDateTime } from '../../Services/DateTimeFormat/DateTimeFormat';
-import { post_statuses } from '../../constants';
+import VisibilityModeration from '../../components/VisibilityModeration/VisibilityModeration';
 
 const log = createLogger(LOG_MODULES.POST_DETAILS);
 
@@ -69,9 +69,10 @@ export default function PostDetails({ isAdmin = false }) {
 
             <div id="main-post-right">
               {isAdmin && (
-                <p className="main-post-status">
-                  {post_statuses[tree.fk_post_status_id]}
-                </p>
+                <VisibilityModeration
+                  post_status_id={tree.fk_post_status_id}
+                  post_id={tree.id}
+                />
               )}
               <span className="date">{formatDateTime(tree.created_on)}</span>
             </div>

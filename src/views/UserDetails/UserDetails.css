@@ -55,15 +55,15 @@
   font-weight: bold;
 }
 
-.admin-search-dropdown {
-  position: relative;
-  display: inline-block;
-}
-
 #user-type,
 #user-status {
   display: flex;
   align-items: center;
+}
+
+.admin-search-dropdown {
+  position: relative;
+  display: inline-block;
 }
 
 .dropdown-content {
@@ -92,6 +92,7 @@
   color: black;
   padding: 12px 16px;
   text-decoration: none;
+  text-transform: capitalize;
   display: block;
 }
 

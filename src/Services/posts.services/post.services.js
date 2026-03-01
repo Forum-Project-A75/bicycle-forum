@@ -49,6 +49,17 @@ export async function updatePost({ postId, title, content }) {
   return data;
 }
 
+export async function updatePostStatus(postId, statusId) {
+  const { _, error } = await supabase
+    .from('posts')
+    .update({ fk_post_status_id: statusId })
+    .eq('id', postId);
+
+  if (error) {
+    throw error;
+  }
+}
+
 export async function insertPostTags(postID, tagID) {
   const { error } = await supabase.from('post_tags').insert({
     fk_post_id: postID,
@@ -69,6 +80,7 @@ export const getUserPostPage = async (from, limit, userId) => {
          id,
          title,
          created_on,
+         fk_post_status_id,
         user:users!posts_fk_user_id_fkey (
            uid,
            handle,
@@ -94,6 +106,48 @@ export const getUserPostPage = async (from, limit, userId) => {
   return data.map((p) => ({
     id: p.id,
     title: p.title,
+    status_id: p.fk_post_status_id,
+    created_at: p.created_on,
+    handle: p.user.handle,
+    avatar: p.user.avatar_url,
+  }));
+};
+
+export const getUserPostPageEspeciallyForUser = async (from, limit, userId) => {
+  const { data, error } = await supabase
+    .from('posts')
+    .select(
+      `
+         id,
+         title,
+         created_on,
+         fk_post_status_id,
+        user:users!posts_fk_user_id_fkey (
+           uid,
+           handle,
+           first_name,
+           last_name,
+           avatar_url
+        )
+      `,
+    )
+    .eq('fk_user_id', userId)
+    .is('fk_parent_id', null)
+    .or(`fk_post_status_id.eq.1, fk_post_status_id.eq.2`)
+    .order('created_on', { ascending: false })
+    .range(from, from + limit - 1);
+
+  if (error) {
+    log.error('getPostPage: ', error.message);
+    throw error;
+  }
+
+  log.log('getPostPage returned data: ', data);
+
+  return data.map((p) => ({
+    id: p.id,
+    title: p.title,
+    status_id: p.fk_post_status_id,
     created_at: p.created_on,
     handle: p.user.handle,
     avatar: p.user.avatar_url,
@@ -108,6 +162,7 @@ export const getUserPostPageAdmin = async (from, limit, userId) => {
          id,
          title,
          created_on,
+         fk_post_status_id,
          post_status:posts_fk_post_status_id_fkey (
           name
          ),
@@ -137,6 +192,7 @@ export const getUserPostPageAdmin = async (from, limit, userId) => {
     title: p.title,
     created_at: p.created_on,
     status: p.post_status.name,
+    status_id: p.fk_post_status_id,
     handle: p.user.handle,
     avatar: p.user.avatar_url,
   }));
@@ -313,6 +369,7 @@ export const getPostPageAdmin = async (from, limit) => {
          id,
          title,
          created_on,
+         fk_post_status_id,
          post_status:post_statuses!posts_fk_post_status_id_fkey (
           name
          ),
@@ -340,6 +397,7 @@ export const getPostPageAdmin = async (from, limit) => {
     id: p.id,
     title: p.title,
     status: p.post_status.name,
+    status_id: p.fk_post_status_id,
     created_at: p.created_on,
     handle: p.user.handle,
     avatar: p.user.avatar_url,

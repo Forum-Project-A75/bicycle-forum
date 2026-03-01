@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import MyPostCard from '../../views/MyPostsCard/MyPostsCard';
 import {
-  getUserPostPage,
+  getUserPostPageEspeciallyForUser,
   getPostStats,
 } from '../../Services/posts.services/post.services';
 import PostEditor from '../../views/PostEditor/PostEditor';
@@ -29,11 +29,12 @@ export default function ShowUserPosts() {
     setLoading(true);
 
     try {
-      const newPosts = await getUserPostPage(
+      const newPosts = await getUserPostPageEspeciallyForUser(
         offsetRef.current,
         PAGE_SIZE,
         user.id,
       );
+      console.log('Fetched posts:', newPosts);
 
       const enrichedPosts = await Promise.all(
         newPosts.map(async (post) => {
@@ -71,7 +72,7 @@ export default function ShowUserPosts() {
 
   return (
     <div id="show-user-posts">
-      <h2>All Posts</h2>
+      <h2>My Posts</h2>
 
       {posts.map((post) => (
         <MyPostCard

@@ -1,0 +1,13 @@
+.my-post-card {
+  display: flex;
+  gap: 1rem;
+  background: #111;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  transition: 0.15s;
+}
+
+.my-post-card:hover {
+  background: #1b1b1b;
+}

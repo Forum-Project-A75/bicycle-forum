@@ -1,0 +1,41 @@
+#posts-tags {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+  border: 2px solid rgb(55, 31, 77);
+  padding: 20px;
+  background-color: rgb(95, 53, 131);
+  min-height: 40vh;
+}
+
+#tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tag-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffffff54;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tag-button:hover {
+  background-color: #ffffffa8;
+}
+
+#posts-from-tags {
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  gap: 20px;
+  width: 95%;
+  padding: 1rem;
+  min-height: 30vh;
+  background-color: rgba(0, 0, 0, 0.2);
+}

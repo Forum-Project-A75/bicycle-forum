@@ -1,6 +1,7 @@
 .combobox {
   position: relative;
-  width: 250px;
+  width: 30%;
+  min-width: 300px;
 }
 
 .dropdown {
@@ -11,16 +12,56 @@
   max-height: 200px;
   overflow-y: auto;
   z-index: 10;
-  color: black;   
+  color: black;
 }
 
 .dropdown-item {
   padding: 8px;
   cursor: pointer;
-  color: black;   
+  color: black;
 }
 
 .dropdown-item:hover {
   background: #eee;
-  color: black; 
+  color: black;
+}
+
+.combobox-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.combobox-input input {
+  width: 85%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.404);
+  transition: background-color 0.2s;
+}
+
+.combobox-input input:focus {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.combobox-input > button {
+  width: 15%;
+  height: 100%;
+  padding: 0.47rem;
+  box-sizing: border-box;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: background-color 0.2s;
+}
+
+.combobox-input > button:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.combobox-input > button:active {
+  background-color: rgba(0, 0, 0, 0.55);
 }

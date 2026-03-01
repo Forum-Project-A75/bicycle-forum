@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
-import { searchUsersByHandle } from "../../Services/db.services/user.services";
-import "./UserCombo.css";
+import { useState, useEffect } from 'react';
+import { searchUsersByHandle } from '../../Services/db.services/user.services';
+import './UserCombo.css';
 
-export default function UserCombobox({ value, onChange, placeholder = "Search user..." }) {
-  const [query, setQuery] = useState("");
+export default function UserCombobox({
+  value,
+  onChange,
+  placeholder = 'Search user...',
+}) {
+  const [query, setQuery] = useState('');
   const [users, setUsers] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -13,7 +17,7 @@ export default function UserCombobox({ value, onChange, placeholder = "Search us
     if (value) {
       setQuery(value.handle);
     } else {
-      setQuery("");
+      setQuery('');
     }
   }, [value]);
 
@@ -46,45 +50,48 @@ export default function UserCombobox({ value, onChange, placeholder = "Search us
   };
 
   const handleClear = () => {
-    onChange(null);   // казваме на родителя, че няма избран потребител
-    setQuery("");     // изчистваме input-а
+    onChange(null); // казваме на родителя, че няма избран потребител
+    setQuery(''); // изчистваме input-а
     setUsers([]);
   };
 
   return (
     <div className="combobox">
-      <input
-        type="text"
-        value={query}
-        placeholder={placeholder}
-        onChange={(e) => {
-          setQuery(e.target.value);
-          onChange(null); // премахваме избора, докато пише
-        }}
-        onFocus={() => setShowDropdown(true)}
-      />
+      <div className="combobox-input">
+        <input
+          type="text"
+          value={query}
+          placeholder={placeholder}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            onChange(null); // премахваме избора, докато пише
+          }}
+          onFocus={() => setShowDropdown(true)}
+        />
 
-      {query && (
         <button className="clear-btn" onClick={handleClear}>
           ✕
         </button>
-      )}
+      </div>
 
       {showDropdown && query.length >= 2 && (
         <div className="dropdown">
           {loading && <div className="dropdown-item">Loading...</div>}
 
-          {!loading && users.length === 0 && <div className="dropdown-item">No results</div>}
+          {!loading && users.length === 0 && (
+            <div className="dropdown-item">No results</div>
+          )}
 
-          {!loading && users.map((user) => (
-            <div
-              key={user.uid}
-              className="dropdown-item"
-              onClick={() => handleSelect(user)}
-            >
-              {user.handle}
-            </div>
-          ))}
+          {!loading &&
+            users.map((user) => (
+              <div
+                key={user.uid}
+                className="dropdown-item"
+                onClick={() => handleSelect(user)}
+              >
+                {user.handle}
+              </div>
+            ))}
         </div>
       )}
     </div>

@@ -10,6 +10,7 @@ import {
   getCommentsFiltered,
   getPostStats,
 } from '../../Services/posts.services/post.services';
+import './ShowPosts.css';
 
 const log = createLogger(LOG_MODULES.SHOW_POSTS);
 
@@ -92,10 +93,9 @@ export default function ShowPosts() {
   };
 
   return (
-    <div>
+    <div className="show-all-posts">
       <h2>All Posts</h2>
 
-      {}
       <UserCombobox
         value={selectedUser}
         onChange={setSelectedUser}
@@ -104,12 +104,10 @@ export default function ShowPosts() {
 
       <button onClick={handleShowAll}>Show All</button>
 
-      {}
       {posts.map((post) => (
         <PostCard key={post.id} post={post} />
       ))}
 
-      {}
       {hasMore && (
         <button onClick={() => loadPosts(false)} disabled={loading}>
           {loading ? 'Loading...' : 'Load more posts'}

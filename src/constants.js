@@ -9,6 +9,12 @@ export const user_types = Object.freeze({
   user: 2,
 });
 
+export const post_statuses = Object.freeze({
+  1: 'visible',
+  2: 'hidden',
+  3: 'deleted',
+  4: 'blocked',
+});
 
 export const MIN_NAME_LENGTH = 4;
 export const MAX_NAME_LENGTH = 32;

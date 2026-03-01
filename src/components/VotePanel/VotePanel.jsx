@@ -10,9 +10,8 @@ export default function VotePanel({
   upvotes,
   downvotes,
   userVote,
-  setTree
+  setTree,
 }) {
-  
   const handleUp = () => {
     voteChange(postId, +1);
   };
@@ -21,12 +20,11 @@ export default function VotePanel({
     voteChange(postId, -1);
   };
 
-
   function voteNode(node, voteType) {
     const oldVote = node.my_vote;
 
     // press the same button do not have to change anything
-    if(voteType === oldVote) return node;
+    if (voteType === oldVote) return node;
 
     // press the same button
     //const newVote = (oldVote === voteType) ? 0 : voteType;
@@ -53,13 +51,11 @@ export default function VotePanel({
       ...node,
       upvotes: newUpvotes,
       downvotes: newDownvotes,
-      my_vote: newVote
+      my_vote: newVote,
     };
   }
 
-
   function updateNodeVote(node, targetId, voteType) {
-
     if (!node) return node;
 
     if (node.id === targetId) {
@@ -69,7 +65,7 @@ export default function VotePanel({
     if (node.children && node.children.length > 0) {
       let changed = false;
 
-      const newChildren = node.children.map(child => {
+      const newChildren = node.children.map((child) => {
         const updatedChild = updateNodeVote(child, targetId, voteType);
 
         if (updatedChild !== child) {
@@ -82,7 +78,7 @@ export default function VotePanel({
       if (changed) {
         return {
           ...node,
-          children: newChildren
+          children: newChildren,
         };
       }
     }
@@ -90,16 +86,14 @@ export default function VotePanel({
     return node;
   }
 
-
   const voteChange = async (post_id, value) => {
-
-    setTree(prevTree => updateNodeVote(prevTree, post_id, value));
+    setTree((prevTree) => updateNodeVote(prevTree, post_id, value));
     try {
       const data = await vote(post_id, value);
       log.log('voteChange data: ', data);
     } catch (error) {
       log.error('voteChange: ', error.message);
-      setTree(prevTree => updateNodeVote(prevTree, post_id, -value));
+      setTree((prevTree) => updateNodeVote(prevTree, post_id, -value));
     }
   };
 
@@ -112,7 +106,18 @@ export default function VotePanel({
         ᐃ
       </button>
 
-      <div className="score">{score}</div>
+      <div
+        className="score"
+        style={
+          score > 0
+            ? { color: '#4caf50' }
+            : score < 0
+              ? { color: '#f44336' }
+              : { color: 'lightgray' }
+        }
+      >
+        {score}
+      </div>
 
       <button
         className={userVote === -1 ? 'down active' : 'down'}
@@ -122,7 +127,7 @@ export default function VotePanel({
       </button>
 
       <div className="details">
-        ↑ {upvotes} ↓ {downvotes}
+        <p>{upvotes} ᐃ</p> <p>{downvotes} ᐁ</p>
       </div>
     </div>
   );

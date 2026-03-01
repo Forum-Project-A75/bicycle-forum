@@ -39,7 +39,7 @@ export default function ShowUserPosts() {
       const enrichedPosts = await Promise.all(
         newPosts.map(async (post) => {
           //const data = await getPostDirectComments(post.id);
-          const data = await getCommentsFiltered(post.id);
+          // const data = await getCommentsFiltered(post.id);
           //const data = await getCommentsFiltered(post.id);
 
           const data = await getPostStats(post.id);

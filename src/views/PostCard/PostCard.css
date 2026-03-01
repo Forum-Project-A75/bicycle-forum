@@ -33,10 +33,6 @@
   margin-top: 0.5rem;
 }
 
-.post-main {
-  flex: 1;
-}
-
 .post-title {
   margin: 0;
   color: #6c79ff;
@@ -44,11 +40,19 @@
 
 .post-meta {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
   align-items: center;
   gap: 0.6rem;
   margin-top: 0.5rem;
   color: #aaa;
   font-size: 0.9rem;
+}
+
+.postcard-author-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .avatar {
@@ -60,4 +64,12 @@
 
 .post-status {
   color: white;
+}
+
+.postcard-bottom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
 }

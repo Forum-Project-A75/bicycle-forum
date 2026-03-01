@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import {
   buildCommentTree,
   getCommentsFiltered,
+  getComments,
 } from '../../Services/posts.services/post.services';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
 import CommentNode from '../../components/CommentNode/CommentNode';

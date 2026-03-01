@@ -4,6 +4,7 @@ import { getAllTags } from '../../Services/db.services/tags.services';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
 import { getPostsFiltereByTag } from '../../Services/posts.services/post.services';
 import { getPostStats } from '../../Services/posts.services/post.services';
+import './Tags.css';
 
 const log = createLogger(LOG_MODULES.TAGS);
 

@@ -110,14 +110,17 @@ export default function Home() {
             <h2>Latest Posts</h2>
             {postsData.latestPosts &&
               postsData.latestPosts.map((post) => (
-                <HomePostCard key={`latest-${post.id}`} post={post} />
+                <HomePostCard key={`latest-${post.post_id}`} post={post} />
               ))}
           </div>
           <div className="posts-column">
             <h2>Most Commented</h2>
             {postsData.mostCommented &&
               postsData.mostCommented.map((post) => (
-                <HomePostCard key={`most-commented-${post.post_id}`} post={post} />
+                <HomePostCard
+                  key={`most-commented-${post.post_id}`}
+                  post={post}
+                />
               ))}
           </div>
         </div>

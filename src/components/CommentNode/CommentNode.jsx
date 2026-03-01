@@ -21,7 +21,7 @@ export default function CommentNode({
   //log.log("comment: ", comment);
 
   return (
-    <div className="comment">
+    <div className={`comment ${post_statuses[comment.fk_post_status_id]}`}>
       <div className="comment-details">
         {
           <VotePanel
@@ -33,29 +33,36 @@ export default function CommentNode({
             setTree={setTree}
           />
         }
-        <div>
-          <span className="author">{comment.username}</span>
-          <span className="date">{formatDateTime(comment.created_on)}</span>
-          {isAdmin && (
-            <div className="comment-status">
-              {post_statuses[comment.fk_post_status_id]}
-            </div>
-          )}
-          <div className="comment-content">{comment.content}</div>
-          <div className="reply-container">
-            <button className="reply-button" onClick={() => setReplying(true)}>
-              Reply
-            </button>
-
-            {replying && (
-              <CommentsCreator
-                userId={user.id}
-                parentId={comment.id}
-                setReplying={setReplying}
-                setTree={setTree}
-                username={userData.handle}
-              />
+        <div className="comment-main">
+          <div className="comment-top">
+            <span className="author">{comment.username}</span>
+            {isAdmin && (
+              <div className="comment-status">
+                {post_statuses[comment.fk_post_status_id]}
+              </div>
             )}
+          </div>
+          <div className="comment-content">{comment.content}</div>
+          <div className="comment-bottom">
+            <div className="reply-container">
+              <button
+                className="reply-button"
+                onClick={() => setReplying(true)}
+              >
+                Reply
+              </button>
+
+              {replying && (
+                <CommentsCreator
+                  userId={user.id}
+                  parentId={comment.id}
+                  setReplying={setReplying}
+                  setTree={setTree}
+                  username={userData.handle}
+                />
+              )}
+            </div>
+            <span className="date">{formatDateTime(comment.created_on)}</span>
           </div>
         </div>
       </div>

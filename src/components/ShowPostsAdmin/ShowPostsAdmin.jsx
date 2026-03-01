@@ -8,6 +8,7 @@ import {
   getUserPostPageAdmin,
   getPostDirectComments,
 } from '../../Services/posts.services/post.services';
+import '../ShowPosts/ShowPosts.css';
 
 const log = createLogger(LOG_MODULES.SHOW_POSTS_ADMIN);
 
@@ -87,7 +88,7 @@ export default function ShowPostsAdmin() {
   };
 
   return (
-    <div>
+    <div className="show-all-posts">
       <h2>All Posts</h2>
 
       {}

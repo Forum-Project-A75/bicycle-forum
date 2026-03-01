@@ -127,31 +127,22 @@
   margin: 0.5rem;
 }
 
-hr {
-  width: 100%;
-  border: none;
-  border-top: 2px solid rgb(55, 31, 77);
-}
-
-p {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
 .tabs {
   display: flex;
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 0 0 1rem 0;
 }
 
-.tabs button {
+.tabs > button {
   padding: 8px 14px;
   cursor: pointer;
   border: none;
   background: #ddd;
+  color: #333;
+  border-radius: 0 0 15px 15px;
 }
 
-.tabs button.active {
+.tabs > button.active {
   background: #444;
   color: white;
 }

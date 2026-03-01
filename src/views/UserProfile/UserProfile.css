@@ -137,12 +137,16 @@
   padding: 8px 14px;
   cursor: pointer;
   border: none;
-  background: #ddd;
-  color: #333;
+  background-color: black;
+  color: #646cff;
   border-radius: 0 0 15px 15px;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .tabs > button.active {
-  background: #444;
-  color: white;
+  background: #646cff;
+  color: black;
+  box-shadow: 0 0 10px rgba(100, 108, 255, 0.6);
 }

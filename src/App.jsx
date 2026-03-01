@@ -136,7 +136,16 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="/post/:id" element={<PostDetails />} />
+          <Route
+            path="/post/:id"
+            element={
+              userData?.role === 'user' ? (
+                <PostDetails />
+              ) : (
+                <PostDetails isAdmin={true} />
+              )
+            }
+          />
         </Routes>
       </AuthContext.Provider>
     </BrowserRouter>

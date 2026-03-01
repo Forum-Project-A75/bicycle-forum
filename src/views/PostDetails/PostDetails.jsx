@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import {
   getComments,
   buildCommentTree,
-  getCommentsFiltered
+  getCommentsFiltered,
 } from '../../Services/posts.services/post.services';
 import { createLogger, LOG_MODULES } from '../../debug/debug';
 import CommentNode from '../../components/CommentNode/CommentNode';
@@ -15,7 +15,7 @@ import { formatDateTime } from '../../Services/DateTimeFormat/DateTimeFormat';
 
 const log = createLogger(LOG_MODULES.POST_DETAILS);
 
-export default function PostDetails() {
+export default function PostDetails({ isAdmin = false }) {
   const { id } = useParams();
   const [tree, setTree] = useState(null);
   const [replying, setReplying] = useState(false);
@@ -24,7 +24,12 @@ export default function PostDetails() {
   useEffect(() => {
     const load = async () => {
       log.log('id: ', id);
-      const data = await getCommentsFiltered(id);
+      let data;
+      if (isAdmin) {
+        data = await getComments(id);
+      } else {
+        data = await getCommentsFiltered(id);
+      }
       log.log('incoming post data: ', data);
       const postTree = buildCommentTree(data);
       log.log('tree data: ', postTree);
@@ -32,7 +37,7 @@ export default function PostDetails() {
     };
 
     load();
-  }, [id]);
+  }, [id, isAdmin]);
 
   if (!tree) return <div>Loading post...</div>;
 
@@ -51,9 +56,7 @@ export default function PostDetails() {
         }
         <div>
           <span className="author">{tree.username}</span>
-          <span className="date">
-            {formatDateTime(tree.created_on)}
-          </span>
+          <span className="date">{formatDateTime(tree.created_on)}</span>
           <h1>{tree.title}</h1>
           {tree.content}
 
@@ -74,7 +77,7 @@ export default function PostDetails() {
       <div id="comments-container">
         <h3>Comments</h3>
         {tree.children.map((c) => (
-          <CommentNode key={c.id} comment={c} tree={tree} setTree={setTree}/>
+          <CommentNode key={c.id} comment={c} tree={tree} setTree={setTree} />
         ))}
       </div>
     </div>
